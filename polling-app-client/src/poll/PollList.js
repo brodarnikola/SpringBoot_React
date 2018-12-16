@@ -146,6 +146,7 @@ class PollList extends Component {
 
                 }).catch(error => {
                 if(error.status === 401) {
+                    this.setState({ isDeletingPoll: false});
                     this.props.handleLogout('/login', 'error', 'You have been logged out. Please login to vote');
                 } else {
 
