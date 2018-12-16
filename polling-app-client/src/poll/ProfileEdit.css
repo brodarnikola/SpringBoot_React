@@ -1,0 +1,31 @@
+.main-profile-edit {
+    font-size: 20px;
+    text-align: center;
+    padding: 20px;
+}
+
+
+.update-profile-form-button {
+    width: 15%;
+    height: 50px;
+    margin-top: 15px;
+}
+
+.update-profile-form-button[disabled], .update-profile-form-button[disabled]:hover, .update-profile-form-button[disabled]:focus {
+    opacity: 0.6;
+    color: #fff;
+    background-color: #1890ff;
+    border-color: #1890ff;
+}
+
+.input-email {
+    width: 300px;
+}
+
+.input-name {
+    width: 300px;
+}
+
+.input-username {
+    width: 300px;
+}
