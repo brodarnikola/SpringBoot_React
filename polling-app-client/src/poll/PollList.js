@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {delete_Poll, getAllPolls, getUserCreatedPolls, getUserVotedPolls} from '../util/APIUtils';
 import Poll from './Poll';
 import { castVote } from '../util/APIUtils';
-import LoadingIndicator  from '../common/LoadingIndicator';
+import CustomLoadingIndicator  from '../common/CustomLoadingIndicator';
 import { Button, Icon, notification } from 'antd';
 import { POLL_LIST_SIZE } from '../constants';
 import { withRouter } from 'react-router-dom';
@@ -19,7 +19,8 @@ class PollList extends Component {
             totalPages: 0,
             last: true,
             currentVotes: [],
-            isLoading: false
+            isLoading: false,
+            isDeletingPoll: false
         };
         this.loadPollList = this.loadPollList.bind(this);
         this.handleLoadMore = this.handleLoadMore.bind(this);
@@ -108,7 +109,7 @@ class PollList extends Component {
     deletePoll(event, pollIndex) {
         event.preventDefault();
 
-        this.setState({ isLoading: true});
+        this.setState({ isDeletingPoll: true});
         if (window.confirm('Are you sure you wish to delete this item?')) {
 
             if(!this.props.isAuthenticated) {
@@ -135,7 +136,7 @@ class PollList extends Component {
 
                     this.setState({
                         polls: newPollList,
-                        isLoading: false
+                        isDeletingPoll: false
                     });
 
                     notification.success({
@@ -148,7 +149,7 @@ class PollList extends Component {
                     this.props.handleLogout('/login', 'error', 'You have been logged out. Please login to vote');
                 } else {
 
-                    this.setState({ isLoading: false});
+                    this.setState({ isDeletingPoll: false});
                     notification.error({
                         message: 'Polling App',
                         description:  "GRESKA: "  + error.message  || 'Sorry! Something went wrong. Please try again!'
@@ -157,7 +158,7 @@ class PollList extends Component {
             });
         }
 
-        this.setState({ isLoading: false});
+        this.setState({ isDeletingPoll: false});
     }
 
 
@@ -211,8 +212,8 @@ class PollList extends Component {
                 handleVoteSubmit={(event) => this.handleVoteSubmit(event, pollIndex)} />)            
         });
 
-        if (this.state.isLoading) {
-            return <LoadingIndicator/> ;
+        if (this.state.isDeletingPoll) {
+            return <CustomLoadingIndicator/> ;
         }
 
         return (
@@ -235,7 +236,7 @@ class PollList extends Component {
                 }              
                 {
                     this.state.isLoading ? 
-                    <LoadingIndicator />: null                     
+                    <CustomLoadingIndicator />: null
                 }
             </div>
         );
