@@ -15,11 +15,14 @@ public class UserSummary {
     // jer dok se je user promijenio, nisu mi se promijenili credentialsi od usera, pa mi se je pokazivao stari name i email
     // to ću morati osmisliti kako riješiti
 
-    public UserSummary(Long id, String username, String name, String email) {
+    private String roles;
+
+    public UserSummary(Long id, String username, String name, String email, String roles) {
         this.id = id;
         this.username = username;
         this.name = name;
         this.email = email;
+        this.roles = roles;
     }
 
     public Long getId() {
@@ -52,6 +55,14 @@ public class UserSummary {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 
 }

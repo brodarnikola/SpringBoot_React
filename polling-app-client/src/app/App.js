@@ -27,7 +27,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: null,
+      currentUser: {},
       isAuthenticated: false,
       isLoading: false
     }
@@ -53,8 +53,8 @@ class App extends Component {
         isAuthenticated: true,
         isLoading: false
       });
-      //console.log("ispis podatki od usera:" + " 1) username: " + this.state.currentUser.username
-      //    + "2) email: " + this.state.currentUser.email );
+      console.log("ispis podatki od usera:" + " 1) username: " + this.state.currentUser.username
+          + "2) authorities: " + this.state.currentUser.roles + " kompletni ispis: " +  this.state.currentUser);
     }).catch(error => {
       this.setState({
         isLoading: false

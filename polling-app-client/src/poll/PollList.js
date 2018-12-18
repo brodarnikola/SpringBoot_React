@@ -202,16 +202,36 @@ class PollList extends Component {
     }
 
     render() {
+
+
         const pollViews = [];
-        this.state.polls.forEach((poll, pollIndex) => {
-            pollViews.push(<Poll 
-                key={poll.id} 
-                poll={poll}
-                currentVote={this.state.currentVotes[pollIndex]}
-                deletePoll={(event) => this.deletePoll(event, pollIndex)}
-                handleVoteChange={(event) => this.handleVoteChange(event, pollIndex)}
-                handleVoteSubmit={(event) => this.handleVoteSubmit(event, pollIndex)} />)            
-        });
+        if( this.props.currentUser != null ) {
+            console.log("role: " + this.props.currentUser.roles);
+
+            this.state.polls.forEach((poll, pollIndex) => {
+                pollViews.push(<Poll
+                    key={poll.id}
+                    poll={poll}
+                    currentVote={this.state.currentVotes[pollIndex]}
+                    deletePoll={(event) => this.deletePoll(event, pollIndex)}
+                    handleVoteChange={(event) => this.handleVoteChange(event, pollIndex)}
+                    handleVoteSubmit={(event) => this.handleVoteSubmit(event, pollIndex)}
+                    roleAdminOrUser={this.props.currentUser.roles}
+                />)
+            });
+        }
+        else {
+            this.state.polls.forEach((poll, pollIndex) => {
+                pollViews.push(<Poll
+                    key={poll.id}
+                    poll={poll}
+                    currentVote={this.state.currentVotes[pollIndex]}
+                    deletePoll={(event) => this.deletePoll(event, pollIndex)}
+                    handleVoteChange={(event) => this.handleVoteChange(event, pollIndex)}
+                    handleVoteSubmit={(event) => this.handleVoteSubmit(event, pollIndex)}
+                />)
+            });
+        }
 
         if (this.state.isDeletingPoll) {
             return <CustomLoadingIndicator/> ;

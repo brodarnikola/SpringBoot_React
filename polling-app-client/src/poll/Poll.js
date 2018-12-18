@@ -73,17 +73,20 @@ class Poll extends Component {
             this.props.poll.choices.forEach(choice => {
                 pollChoices.push(<Radio className="poll-choice-radio" key={choice.id} value={choice.id}>{choice.text}</Radio>)
             })    
-        }        
+        }
+
         return (
             <div className="poll-content">
                 <div className="poll-header">
                     <div className="poll-creator-info">
 
-                        <Link to={'/'}>
-                            <img src={deleteIcon}
-                                className="poll-creation-picture"
-                            onClick={this.props.deletePoll} />
-                        </Link>
+                        { this.props.roleAdminOrUser === "[ROLE_ADMIN]" &&
+                            <Link to={'/'}>
+                                <img src={deleteIcon}
+                                     className="poll-creation-picture"
+                                     onClick={this.props.deletePoll}/>
+                            </Link>
+                        }
 
                         <Link className="creator-link" to={`/users/${this.props.poll.createdBy.username}`}>
                             <Avatar className="poll-creator-avatar" 

@@ -43,7 +43,8 @@ public class UserController {
     @GetMapping("/user/me")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public UserSummary getCurrentUser(@CurrentUser UserPrincipal currentUser) {
-        UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername(), currentUser.getName(), currentUser.getEmail());
+        UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername(),
+                currentUser.getName(), currentUser.getEmail(), currentUser.getAuthorities().toString());
         return userSummary;
     }
 
