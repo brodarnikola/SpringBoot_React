@@ -40,22 +40,46 @@ class ChangePassword extends Component {
     handleSubmit(event) {
         event.preventDefault();
 
-        const savePasswordRequest = {
-            password: this.state.password1.value
-        };
+        const query = new URLSearchParams(this.props.location.search);
 
-        savePassword(savePasswordRequest)
+        let id = query.get('id');
+        let token = query.get('token');
+
+
+        showChangePasswordPage(id, token)
             .then(response => {
-                notification.success({
-                    message: 'Polling App',
-                    description: "Thank you! You have successfully updated your password!",
+
+                console.log("Token je: " + response.accessToken);
+                localStorage.setItem(ACCESS_TOKEN, response.accessToken);
+
+                const savePasswordRequest = {
+                    password: this.state.password1.value
+                };
+
+                savePassword(savePasswordRequest)
+                    .then(response => {
+                        notification.success({
+                            message: 'Polling App',
+                            description: "Thank you! You have successfully updated your password!",
+                        });
+                        this.props.history.push("/login");
+                    }).catch(error => {
+                    notification.error({
+                        message: 'Polling App',
+                        description: error.message || 'Sorry! Something went wrong. Please try again!'
+                    });
                 });
-                this.props.history.push("/login");
             }).catch(error => {
-            notification.error({
-                message: 'Polling App',
-                description: error.message || 'Sorry! Something went wrong. Please try again!'
-            });
+
+
+            if( error.message.includes("Please send one more password recovery or login.")  ) {
+
+                this.props.history.push("/login");
+                notification.error({
+                    message: 'Polling App',
+                    description: error.message || 'Sorry! Something went wrong. Please try again!'
+                });
+            }
         });
     }
 
@@ -66,28 +90,7 @@ class ChangePassword extends Component {
 
     componentWillMount() {
 
-        const query = new URLSearchParams(this.props.location.search);
-
-        let id = query.get('id');
-        let token = query.get('token');
-
-        showChangePasswordPage(id, token)
-            .then(response => {
-
-                console.log("Token je: " + response.accessToken);
-                localStorage.setItem(ACCESS_TOKEN, response.accessToken);
-            }).catch(error => {
-
-                if( error.message.includes("Please send one more password recovery or login.")  ) {
-
-                    this.props.history.push("/login");
-                    notification.error({
-                        message: 'Polling App',
-                        description: error.message || 'Sorry! Something went wrong. Please try again!'
-                    });
-                }
-
-        });
+        localStorage.setItem(ACCESS_TOKEN, "");
     }
 
     render() {

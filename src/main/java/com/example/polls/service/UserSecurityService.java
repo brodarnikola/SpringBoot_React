@@ -63,15 +63,6 @@ public class UserSecurityService implements ISecurityUserService {
         User user = passToken.getUser();
         UserPrincipal userPrincipal = UserPrincipal.create(user, updatePassword);
 
-        //UserController userController = new UserController();
-        //userController.getCurrentUser(userPrincipal);
-
-        /*UserPrincipal userPrincipal = (UserPrincipal) customUserDetailsService.loadUserByUsername(user.getEmail());
-
-        Authentication  auth = new UsernamePasswordAuthenticationToken(user,
-                null, customUserDetailsService.loadUserByUsername(user.getEmail()).getAuthorities() );
-        SecurityContextHolder.getContext().setAuthentication(auth); */
-
         Authentication auth = new UsernamePasswordAuthenticationToken(
                 userPrincipal, null, Arrays.asList(
                 new SimpleGrantedAuthority("CHANGE_PASSWORD_PRIVILEGE")));
@@ -80,15 +71,6 @@ public class UserSecurityService implements ISecurityUserService {
 
         String jwt = tokenProvider.generateToken(auth);
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
-
-        //return null;
-        /* UserDetails userDetails = customUserDetailsService.loadUserByUsername(userPrincipal.getEmail());
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, Arrays.asList(
-                new SimpleGrantedAuthority("CHANGE_PASSWORD_PRIVILEGE")));
-        //authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication); */
-
     }
 
 }

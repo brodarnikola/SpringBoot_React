@@ -197,7 +197,7 @@ class ProfileEdit extends Component {
                             <Button type="primary"
                                     htmlType="submit"
                                     className="update-profile-form-button"
-                                    disabled={this.isFormInvalid()}>Sign up</Button>
+                                    disabled={this.isFormInvalid()}>Update profile</Button>
 
                         </FormItem>
                     </Form>

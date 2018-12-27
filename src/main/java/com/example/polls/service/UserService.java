@@ -17,18 +17,8 @@ public class UserService implements IUserService {
     @Autowired
     private UserRepository userRepository;
 
-    //@Autowired
-    //private PasswordResetUserRepository passwordResetUserRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    public static final String TOKEN_INVALID = "invalidToken";
-    public static final String TOKEN_EXPIRED = "expired";
-    public static final String TOKEN_VALID = "valid";
 
     // API
     @Override

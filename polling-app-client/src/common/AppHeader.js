@@ -21,8 +21,11 @@ class AppHeader extends Component {
     }
 
     render() {
+
+        console.log("aaa: " + this.props.currentUser);
+
         let menuItems;
-        if( this.props.showUserAdminMenu === true && this.props.isAuthenticated === true ) {
+        if( this.props.currentUser !== null && this.props.isAuthenticated === true ) {
           menuItems = [
             <Menu.Item key="/">
               <Link to="/">
