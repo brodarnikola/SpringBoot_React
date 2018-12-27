@@ -22,7 +22,7 @@ class AppHeader extends Component {
 
     render() {
         let menuItems;
-        if(this.props.currentUser) {
+        if( this.props.showUserAdminMenu === true && this.props.isAuthenticated === true ) {
           menuItems = [
             <Menu.Item key="/">
               <Link to="/">
@@ -83,7 +83,7 @@ function ProfileDropdownMenu(props) {
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="profile" className="dropdown-item">
-        <Link to={`/users/${props.currentUser.username}`}>Profile</Link>
+        <Link to={`/users/${props.currentUser.username}`}>Polls</Link>
       </Menu.Item>
       <Menu.Item key="editProfile" className="dropdown-item">
             <Link to={`/profileEdit/${props.currentUser.username}`}>Edit Profile</Link>

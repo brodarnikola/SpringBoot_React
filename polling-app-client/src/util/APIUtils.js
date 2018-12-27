@@ -65,6 +65,29 @@ export function signup(signupRequest) {
     });
 }
 
+export function forgotPassword(forgotPasswordRequest) {
+    return request({
+        url: API_BASE_URL + "/auth/forgotPassword",
+        method: 'POST',
+        body: JSON.stringify( forgotPasswordRequest)
+    });
+}
+
+export function savePassword(savePasswordRequest) {
+    return request({
+        url: API_BASE_URL + "/auth/user/savePassword",
+        method: 'POST',
+        body: JSON.stringify( savePasswordRequest)
+    });
+}
+
+export function showChangePasswordPage(id, token) {
+    return request({
+        url: API_BASE_URL + "/auth/changePassword?id=" + id + "&token=" + token,
+        method: 'GET'
+    });
+}
+
 export function checkUsernameAvailability(username) {
     return request({
         url: API_BASE_URL + "/user/checkUsernameAvailability?username=" + username,

@@ -206,7 +206,6 @@ class PollList extends Component {
 
         const pollViews = [];
         if( this.props.currentUser != null ) {
-            console.log("role: " + this.props.currentUser.roles);
 
             this.state.polls.forEach((poll, pollIndex) => {
                 pollViews.push(<Poll

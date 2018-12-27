@@ -88,7 +88,6 @@ class ProfileEditCopy extends Component {
     componentDidMount() {
 
         const username = this.props.match.params.username;
-        console.log("username je: " + username);
         this.loadUserProfile(username);
     }
 

@@ -28,7 +28,7 @@ class LoginForm extends Component {
     }
 
     handleSubmit(event) {
-        event.preventDefault();   
+        event.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 const loginRequest = Object.assign({}, values);
@@ -82,7 +82,8 @@ class LoginForm extends Component {
                 </FormItem>
                 <FormItem>
                     <Button type="primary" htmlType="submit" size="large" className="login-form-button">Login</Button>
-                    Or <Link to="/signup">register now!</Link>
+                    Or <Link to="/signup">register now!</Link>  <br/>
+                    Forgot your password? <Link to="/forgotPassword">Click here to recovery it.</Link>
                 </FormItem>
             </Form>
         );

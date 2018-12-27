@@ -27,6 +27,10 @@ public class UserPrincipal implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
+    public UserPrincipal() {
+
+    }
+
     public UserPrincipal(Long id, String name, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.name = name;
@@ -36,10 +40,15 @@ public class UserPrincipal implements UserDetails {
         this.authorities = authorities;
     }
 
-    public static UserPrincipal create(User user) {
+    public static UserPrincipal create(User user, int updatePassword) {
+
         List<GrantedAuthority> authorities = user.getRoles().stream().map(role ->
                 new SimpleGrantedAuthority(role.getName().name())
         ).collect(Collectors.toList());
+
+        if( updatePassword == 1 ) {
+            authorities.add(new SimpleGrantedAuthority( "CHANGE_PASSWORD_PRIVILEGE"));
+        }
 
         return new UserPrincipal(
                 user.getId(),
@@ -71,6 +80,10 @@ public class UserPrincipal implements UserDetails {
     @Override
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override

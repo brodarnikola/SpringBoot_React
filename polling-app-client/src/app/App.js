@@ -13,6 +13,7 @@ import PollList from '../poll/PollList';
 import NewPoll from '../poll/NewPoll';
 import Login from '../user/login/Login';
 import Signup from '../user/signup/Signup';
+import ForgotPassword from '../user/forgotPassword/ForgotPassword';
 import Profile from '../user/profile/Profile';
 import AppHeader from '../common/AppHeader';
 import NotFound from '../common/NotFound';
@@ -21,6 +22,7 @@ import PrivateRoute from '../common/PrivateRoute';
 
 import { Layout, notification } from 'antd';
 import ProfileEdit from "../poll/ProfileEdit";
+import ChangePassword from "../user/changePassword/ChangePassword";
 const { Content } = Layout;
 
 class App extends Component {
@@ -29,7 +31,9 @@ class App extends Component {
     this.state = {
       currentUser: {},
       isAuthenticated: false,
-      isLoading: false
+      isLoading: false,
+      id: "",
+      showUserAdminMenu: false
     }
     this.handleLogout = this.handleLogout.bind(this);
     this.loadCurrentUser = this.loadCurrentUser.bind(this);
@@ -51,13 +55,15 @@ class App extends Component {
       this.setState({
         currentUser: response,
         isAuthenticated: true,
-        isLoading: false
+        isLoading: false,
+        showUserAdminMenu: true
       });
       console.log("ispis podatki od usera:" + " 1) username: " + this.state.currentUser.username
           + "2) authorities: " + this.state.currentUser.roles + " kompletni ispis: " +  this.state.currentUser);
     }).catch(error => {
       this.setState({
-        isLoading: false
+          isLoading: false,
+          showUserAdminMenu: false
       });  
     });
   }
@@ -71,7 +77,8 @@ class App extends Component {
 
     this.setState({
       currentUser: null,
-      isAuthenticated: false
+      isAuthenticated: false,
+        showUserAdminMenu: false
     });
 
     this.props.history.push(redirectTo);
@@ -99,7 +106,9 @@ class App extends Component {
         <Layout className="app-container">
           <AppHeader isAuthenticated={this.state.isAuthenticated} 
             currentUser={this.state.currentUser} 
-            onLogout={this.handleLogout} />
+            onLogout={this.handleLogout}
+            showUserAdminMenu={this.state.showUserAdminMenu }
+          />
 
           <Content className="app-content">
             <div className="container">
@@ -111,6 +120,9 @@ class App extends Component {
                 <Route path="/login" 
                   render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
                 <Route path="/signup" component={Signup}></Route>
+                <Route path="/forgotPassword" component={ForgotPassword}></Route>
+                <Route path="/changePassword/:id?/:token?"  render={(props) => <ChangePassword {...props} />}
+                     /* component={ChangePassword} */ ></Route>
                 <Route path="/users/:username" 
                   render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}>
                 </Route>

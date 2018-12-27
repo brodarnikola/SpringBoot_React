@@ -146,7 +146,7 @@ class Signup extends Component {
                                 onChange={(event) => this.handleInputChange(event, this.validatePassword)}/>
                         </FormItem>
                         <FormItem
-                            label="Unesite šifru za admina"
+                            label="Code for admin:"
                             validateStatus={this.state.sifra.validateStatus}
                             help={this.state.sifra.errorMsg}>
                             <Input

@@ -91,7 +91,6 @@ class ProfileEdit extends Component {
             email: newEmail
         };
 
-        console.log(updateProfileRequest.oldUsername + "  ispis: " + updateProfileRequest.username);
         if( this.state.username.value === '' &&
             this.state.name.value === '' && this.state.email.value === '' ) {
             alert("nista niste promijenili");
