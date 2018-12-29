@@ -13,6 +13,7 @@ import PollList from '../poll/PollList';
 import NewPoll from '../poll/NewPoll';
 import Login from '../user/login/Login';
 import Signup from '../user/signup/Signup';
+import SignUpConfirm from '../user/signUpConfirm/SignUpConfirm';
 import ForgotPassword from '../user/forgotPassword/ForgotPassword';
 import Profile from '../user/profile/Profile';
 import AppHeader from '../common/AppHeader';
@@ -122,6 +123,8 @@ class App extends Component {
                             <Route path="/login"
                                    render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
                             <Route path="/signup" component={Signup}></Route>
+                            <Route path="/signUpConfirm/:token?"
+                                   render={(props) => <SignUpConfirm  {...props} />} ></Route>
                             <Route path="/forgotPassword" component={ForgotPassword}></Route>
                             <Route path="/changePassword/:id?/:token?"
                                    render={(props) => <ChangePassword  {...props} />}

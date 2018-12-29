@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import {ACCESS_TOKEN, PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH} from '../../constants';
+import {ACCESS_TOKEN, PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH, PASSWORD_DOES_NOT_MATCH} from '../../constants';
 
 import { Form, Input, Button, notification } from 'antd';
 import {showChangePasswordPage, savePassword} from "../../util/APIUtils";
@@ -71,16 +71,15 @@ class ChangePassword extends Component {
                 });
             }).catch(error => {
 
+                if( error.message.includes("Please send one more password recovery.")  ) {
 
-            if( error.message.includes("Please send one more password recovery or login.")  ) {
-
-                this.props.history.push("/login");
-                notification.error({
-                    message: 'Polling App',
-                    description: error.message || 'Sorry! Something went wrong. Please try again!'
-                });
-            }
-        });
+                    this.props.history.push("/login");
+                    notification.error({
+                        message: 'Polling App',
+                        description: error.message || 'Sorry! Something went wrong. Please try again!'
+                    });
+                }
+            });
     }
 
     isFormInvalid() {
@@ -102,6 +101,7 @@ class ChangePassword extends Component {
                     <Form onSubmit={this.handleSubmit} className="signup-form">
                         <FormItem
                             label="New password between 6 to 20 characters"
+                            hasFeedback
                             validateStatus={this.state.password1.validateStatus}
                             help={this.state.password1.errorMsg}>
                             <Input
@@ -115,6 +115,7 @@ class ChangePassword extends Component {
                         </FormItem>
                         <FormItem
                             label="Confirm password"
+                            hasFeedback
                             validateStatus={this.state.password2.validateStatus}
                             help={this.state.password2.errorMsg}>
                             <Input
@@ -170,10 +171,10 @@ class ChangePassword extends Component {
                 validationStatus: 'error',
                 errorMsg: `Password is too long (Maximum ${PASSWORD_MAX_LENGTH} characters allowed.)`
             }
-        } else if (password != this.state.password1.value) {
+        } else if (password != this.state.password1.value ) {
             return {
                 validationStatus: 'error',
-                errorMsg: `Passwords does not matches.)`
+                errorMsg: `Passwords does not matches ${PASSWORD_DOES_NOT_MATCH}.`
             }
         } else {
             return {

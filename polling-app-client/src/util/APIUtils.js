@@ -65,6 +65,14 @@ export function signup(signupRequest) {
     });
 }
 
+export function signUpConfirm(token) {
+    return request({
+        url: API_BASE_URL + "/auth/signUpConfirm?token=" + token,
+        method: 'GET'
+    });
+}
+
+
 export function forgotPassword(forgotPasswordRequest) {
     return request({
         url: API_BASE_URL + "/auth/forgotPassword",

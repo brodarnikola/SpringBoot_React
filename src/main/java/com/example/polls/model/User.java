@@ -50,8 +50,12 @@ public class User extends DateAudit implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    @Column(name = "enabled", columnDefinition="BOOLEAN default false")
+    private boolean enabled;
+
     public User() {
 
+        this.enabled=false;
     }
 
     public User(String name, String username, String email, String password) {
@@ -59,6 +63,7 @@ public class User extends DateAudit implements Serializable {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.enabled=false;
     }
 
     public Long getId() {
@@ -108,4 +113,14 @@ public class User extends DateAudit implements Serializable {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+
 }

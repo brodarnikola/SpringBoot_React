@@ -67,7 +67,7 @@ class Signup extends Component {
             .then(response => {
                 notification.success({
                     message: 'Polling App',
-                    description: "Thank you! You're successfully registered. Please Login to continue!",
+                    description: "Thank you! We have send you email for confirmation your account. Please check your inbox or spam in your mail account.",
                 });
                 this.props.history.push("/login");
             }).catch(error => {
@@ -134,6 +134,7 @@ class Signup extends Component {
                         </FormItem>
                         <FormItem
                             label="Password"
+                            hasFeedback
                             validateStatus={this.state.password.validateStatus}
                             help={this.state.password.errorMsg}>
                             <Input

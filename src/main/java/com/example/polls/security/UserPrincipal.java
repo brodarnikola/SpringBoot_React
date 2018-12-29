@@ -27,28 +27,28 @@ public class UserPrincipal implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
+    private boolean enabledUser;
+
     public UserPrincipal() {
 
     }
 
-    public UserPrincipal(Long id, String name, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(Long id, String name, String username, String email, String password,
+                         Collection<? extends GrantedAuthority> authorities, boolean enabledUser) {
         this.id = id;
         this.name = name;
         this.username = username;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
+        this.enabledUser = enabledUser;
     }
 
-    public static UserPrincipal create(User user, int updatePassword) {
+    public static UserPrincipal create(User user) {
 
         List<GrantedAuthority> authorities = user.getRoles().stream().map(role ->
                 new SimpleGrantedAuthority(role.getName().name())
         ).collect(Collectors.toList());
-
-        if( updatePassword == 1 ) {
-            authorities.add(new SimpleGrantedAuthority( "CHANGE_PASSWORD_PRIVILEGE"));
-        }
 
         return new UserPrincipal(
                 user.getId(),
@@ -56,7 +56,8 @@ public class UserPrincipal implements UserDetails {
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword(),
-                authorities
+                authorities,
+                user.isEnabled()
         );
     }
 
@@ -109,6 +110,14 @@ public class UserPrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public boolean isEnabledUser() {
+        return enabledUser;
+    }
+
+    public void setEnabledUser(boolean enabledUser) {
+        this.enabledUser = enabledUser;
     }
 
     @Override

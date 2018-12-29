@@ -5,9 +5,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 @Entity
-public class PasswordResetToken {
+public class VerificationToken {
 
-    private static final int EXPIRATION = 60*12;
+    private static final int EXPIRATION = 1*1;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,18 +21,18 @@ public class PasswordResetToken {
 
     private Date expiryDate;
 
-    public PasswordResetToken() {
+    public VerificationToken() {
         super();
     }
 
-    public PasswordResetToken(final String token) {
+    public VerificationToken(final String token) {
         super();
 
         this.token = token;
         this.expiryDate = calculateExpiryDate(EXPIRATION);
     }
 
-    public PasswordResetToken(final String token, final User user) {
+    public VerificationToken(final String token, final User user) {
         super();
 
         this.token = token;
@@ -104,7 +104,7 @@ public class PasswordResetToken {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final PasswordResetToken other = (PasswordResetToken) obj;
+        final VerificationToken other = (VerificationToken) obj;
         if (expiryDate == null) {
             if (other.expiryDate != null) {
                 return false;

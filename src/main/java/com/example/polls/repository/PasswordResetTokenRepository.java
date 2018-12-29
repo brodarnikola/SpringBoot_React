@@ -1,6 +1,6 @@
 package com.example.polls.repository;
 
-import com.example.polls.model.PasswordResetToken;
+import com.example.polls.model.VerificationToken;
 import com.example.polls.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -11,17 +11,17 @@ import java.util.Date;
 import java.util.stream.Stream;
 
 @Repository
-public interface PasswordResetTokenRepository extends JpaRepository<PasswordResetToken, Long> {
+public interface PasswordResetTokenRepository extends JpaRepository<VerificationToken, Long> {
 
-    PasswordResetToken findByToken(String token);
+    VerificationToken findByToken(String token);
 
-    PasswordResetToken findByUser(User user);
+    VerificationToken findByUser(User user);
 
-    Stream<PasswordResetToken> findAllByExpiryDateLessThan(Date now);
+    Stream<VerificationToken> findAllByExpiryDateLessThan(Date now);
 
     void deleteByExpiryDateLessThan(Date now);
 
     @Modifying
-    @Query("delete from PasswordResetToken t where t.expiryDate <= ?1")
+    @Query("delete from VerificationToken t where t.expiryDate <= ?1")
     void deleteAllExpiredSince(Date now);
 }

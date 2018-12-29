@@ -7,7 +7,6 @@ import {
     EMAIL_MAX_LENGTH
 } from "../constants";
 import {Form, Button, notification} from 'antd';
-import AppHeader from "../common/AppHeader";
 
 const FormItem = Form.Item;
 

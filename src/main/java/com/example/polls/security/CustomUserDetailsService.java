@@ -30,9 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                         new UsernameNotFoundException("User not found with username or email : " + usernameOrEmail)
         );
 
-        int updatePassword = 0;
-
-        return UserPrincipal.create(user,updatePassword);
+        return UserPrincipal.create(user);
     }
 
     @Transactional
@@ -41,8 +39,6 @@ public class CustomUserDetailsService implements UserDetailsService {
             () -> new ResourceNotFoundException("User", "id", id)
         );
 
-        int updatePassword = 0;
-
-        return UserPrincipal.create(user,updatePassword);
+        return UserPrincipal.create(user);
     }
 }

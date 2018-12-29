@@ -37,6 +37,7 @@ class LoginForm extends Component {
                     localStorage.setItem(ACCESS_TOKEN, response.accessToken);
                     this.props.onLogin();
                 }).catch(error => {
+                    console.log("aaa: " + error.message);
                     if(error.status === 401) {
                         notification.error({
                             message: 'Polling App',
