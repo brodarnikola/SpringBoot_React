@@ -7,7 +7,8 @@ import java.util.Date;
 @Entity
 public class VerificationToken {
 
-    private static final int EXPIRATION = 1*1;
+    // token is good for one day
+    private static final int EXPIRATION = 60*24;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
