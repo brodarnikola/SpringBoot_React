@@ -4,7 +4,7 @@
   
   .app-title a {
     text-decoration: none;
-    line-height: 64px;
+    line-height: 24px;
     font-size: 21px;
     display: inline-block;
   }
@@ -15,9 +15,9 @@
   
   .app-header {
     position: fixed;
-    width: 100%;
+    width: 60%;
     box-shadow: 0 2px 8px #f0f1f2;
-    z-index: 10;
+    /*z-index: 10;*/
     padding: 0px 150px 0px 150px;
   }
   
@@ -30,7 +30,7 @@
   }
 
   .app-menu > li > a {
-    padding: 0 20px;
+    padding: 0 10px;
     margin: 0 -20px;
   }
 

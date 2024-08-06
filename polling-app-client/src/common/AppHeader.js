@@ -6,6 +6,8 @@ import {
 import './AppHeader.css';
 import pollIcon from '../poll.svg';
 import { Layout, Menu, Dropdown, Icon } from 'antd';
+import { HomeOutlined, UserOutlined, DownOutlined } from '@ant-design/icons';
+
 const Header = Layout.Header;
     
 class AppHeader extends Component {
@@ -29,7 +31,8 @@ class AppHeader extends Component {
           menuItems = [
             <Menu.Item key="/">
               <Link to="/">
-                <Icon type="home" className="nav-icon" />
+                  <HomeOutlined className="nav-icon" />
+                {/*<Icon type="home" className="nav-icon" />*/}
               </Link>
             </Menu.Item>,
             <Menu.Item key="/poll/new">
@@ -55,7 +58,7 @@ class AppHeader extends Component {
         }
 
         return (
-            <Header className="app-header">
+           <Header className="app-header">
             <div className="container">
               <div className="app-title" >
                 <Link to="/">Polling App</Link>
@@ -64,7 +67,7 @@ class AppHeader extends Component {
                 className="app-menu"
                 mode="horizontal"
                 selectedKeys={[this.props.location.pathname]}
-                style={{ lineHeight: '64px' }} >
+                style={{ lineHeight: '7px' }} >
                   {menuItems}
               </Menu>
             </div>
@@ -103,7 +106,9 @@ function ProfileDropdownMenu(props) {
       trigger={['click']}
       getPopupContainer = { () => document.getElementsByClassName('profile-menu')[0]}>
       <a className="ant-dropdown-link">
-         <Icon type="user" className="nav-icon" style={{marginRight: 0}} /> <Icon type="down" />
+         {/*<Icon type="user" className="nav-icon" style={{marginRight: 0}} /> <Icon type="down" />*/}
+          <UserOutlined className="nav-icon" style={{ marginRight: 0 }} /> <DownOutlined />
+
       </a>
     </Dropdown>
   );

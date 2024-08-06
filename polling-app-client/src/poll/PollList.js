@@ -3,7 +3,8 @@ import {delete_Poll, getAllPolls, getUserCreatedPolls, getUserVotedPolls} from '
 import Poll from './Poll';
 import { castVote } from '../util/APIUtils';
 import CustomLoadingIndicator  from '../common/CustomLoadingIndicator';
-import { Button, Icon, notification } from 'antd';
+import { Button, notification } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import { POLL_LIST_SIZE } from '../constants';
 import { withRouter } from 'react-router-dom';
 import './PollList.css';
@@ -242,7 +243,10 @@ class PollList extends Component {
                 {
                     !this.state.isLoading && this.state.polls.length === 0 ? (
                         <div className="no-polls-found">
-                            <span>No Polls Found.</span>
+                            {/*<span>No Polls Found.</span>*/}
+                            {/*<Button type="dashed" onClick={this.handleLoadMore} disabled={this.state.isLoading}>*/}
+                            {/*    <PlusOutlined type="plus" /> Load more*/}
+                            {/*</Button>*/}
                         </div>    
                     ): null
                 }  
@@ -250,7 +254,7 @@ class PollList extends Component {
                     !this.state.isLoading && !this.state.last ? (
                         <div className="load-more-polls"> 
                             <Button type="dashed" onClick={this.handleLoadMore} disabled={this.state.isLoading}>
-                                <Icon type="plus" /> Load more
+                                <PlusOutlined type="plus" /> Load more
                             </Button>
                         </div>): null
                 }              
