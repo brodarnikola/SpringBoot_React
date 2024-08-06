@@ -67,7 +67,7 @@ class AppHeader extends Component {
                 className="app-menu"
                 mode="horizontal"
                 selectedKeys={[this.props.location.pathname]}
-                style={{ lineHeight: '7px' }} >
+                style={{ lineHeight: '30px' }} >
                   {menuItems}
               </Menu>
             </div>
