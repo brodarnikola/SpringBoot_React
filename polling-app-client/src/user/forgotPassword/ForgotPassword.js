@@ -1,99 +1,51 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import {ACCESS_TOKEN, EMAIL_MAX_LENGTH} from '../../constants';
-
+import { EMAIL_MAX_LENGTH } from '../../constants';
 import { Form, Input, Button, notification } from 'antd';
-import {forgotPassword} from "../../util/APIUtils";
-const FormItem = Form.Item;
+import { forgotPassword } from "../../util/APIUtils";
 
-class ForgotPassword extends Component {
+const { Item: FormItem } = Form;
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: {
-                value: ''
-            }
+const ForgotPassword = () => {
+    const [email, setEmail] = useState({ value: '', validateStatus: '', errorMsg: '' });
+
+    const handleInputChange = (event, validationFun) => {
+        const { name, value } = event.target;
+
+        if (name === 'email') {
+            setEmail({
+                value,
+                ...validationFun(value)
+            });
         }
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.isFormInvalid = this.isFormInvalid.bind(this);
-    }
+    };
 
-    handleInputChange(event, validationFun) {
-        const target = event.target;
-        const inputName = target.name;
-        const inputValue = target.value;
-
-        this.setState({
-            [inputName]: {
-                value: inputValue,
-                ...validationFun(inputValue)
-            }
-        });
-    }
-
-    handleSubmit(event) {
+    const handleSubmit = (event) => {
         event.preventDefault();
 
         const forgotPasswordRequest = {
-            email: this.state.email.value
+            email: email.value
         };
+
         forgotPassword(forgotPasswordRequest)
             .then(response => {
                 notification.success({
                     message: 'Polling App',
-                    description: "Thank you! We have successfully send you email. Please check email to confirm!",
+                    description: "Thank you! We have successfully sent you an email. Please check your email to confirm!",
                 });
-                //this.props.history.push("/login");
             }).catch(error => {
             notification.error({
                 message: 'Polling App',
                 description: "GRESKA: " + error.message || 'Sorry! Something went wrong. Please try again!'
             });
         });
-    }
+    };
 
-    isFormInvalid() {
-        return !(  this.state.email.validateStatus === 'success' );
-    }
+    const isFormInvalid = () => {
+        return !(email.validateStatus === 'success');
+    };
 
-
-    render() {
-        return (
-            <div className="signup-container">
-                <h1 className="page-title">Forgot password</h1>
-                <div className="signup-content">
-                    <Form onSubmit={this.handleSubmit} className="signup-form">
-                        <FormItem
-                            label="Email"
-                            hasFeedback
-                            validateStatus={this.state.email.validateStatus}
-                            help={this.state.email.errorMsg}>
-                            <Input
-                                size="large"
-                                name="email"
-                                type="email"
-                                autoComplete="off"
-                                placeholder="Your email"
-                                value={this.state.email.value}
-                                onChange={(event) => this.handleInputChange(event, this.validateEmail)}/>
-                        </FormItem>
-                        <FormItem>
-                            <Button type="primary"
-                                    htmlType="submit"
-                                    size="large"
-                                    className="signup-form-button"
-                                    disabled={this.isFormInvalid()} >Password recovery</Button>
-                            Already registed? <Link to="/login">Login now!</Link>
-                        </FormItem>
-                    </Form>
-                </div>
-            </div>
-        );
-    }
-
-    validateEmail = (email) => {
+    const validateEmail = (email) => {
         if (!email) {
             return {
                 validateStatus: 'error',
@@ -120,10 +72,47 @@ class ForgotPassword extends Component {
             validateStatus: 'success',
             errorMsg: null
         }
-    }
+    };
 
-
-
-}
+    return (
+        <div className="signup-container">
+            <h1 className="page-title">Forgot password</h1>
+            <div className="signup-content">
+                <Form onSubmitCapture={handleSubmit} className="signup-form">
+                    <FormItem
+                        label="Email"
+                        hasFeedback
+                        validateStatus={email.validateStatus}
+                        help={email.errorMsg}
+                    >
+                        <Input
+                            size="large"
+                            name="email"
+                            type="email"
+                            autoComplete="off"
+                            placeholder="Your email"
+                            value={email.value}
+                            onChange={(event) => handleInputChange(event, validateEmail)}
+                        />
+                    </FormItem>
+                    <FormItem>
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            size="large"
+                            className="signup-form-button"
+                            disabled={isFormInvalid()}
+                        >
+                            Password recovery
+                        </Button>
+                        Already registered? <Link to="/login">Login now!</Link>
+                    </FormItem>
+                </Form>
+            </div>
+        </div>
+    );
+};
 
 export default ForgotPassword;
+
+
