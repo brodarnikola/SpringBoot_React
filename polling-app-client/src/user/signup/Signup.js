@@ -26,7 +26,7 @@ const Signup = (props) => {
         username: null,
         email: null,
         password: null,
-        sifra: null
+        // sifra: null
     });
 
     const handleInputChange = (e) => {
@@ -52,9 +52,9 @@ const Signup = (props) => {
             case 'password':
                 validationResult = validatePassword(value);
                 break;
-            case 'sifra':
-                validationResult = validateSifra(value);
-                break;
+            // case 'sifra':
+            //     validationResult = validateSifra(value);
+            //     break;
             default:
                 validationResult = { validateStatus: null, errorMsg: null };
         }
@@ -66,15 +66,27 @@ const Signup = (props) => {
     };
 
     const handleSubmit = (values) => {
+
+        console.log("request values are 1: ")
+        console.log(values)
+
+        if( typeof values.sifra === 'undefined' ) {
+            console.log('sifra is undefined');
+            values.sifra = ''
+        }
+
+        console.log("request values are 2: ")
+        console.log(values)
+
         const signupRequest = {
             name: values.name,
             email: values.email,
             username: values.username,
             password: values.password,
-            sifra: "1234" //values.sifra
+            sifra: values.sifra
         };
 
-        console.log("sign up reques is: ")
+        console.log("sign up request is: ")
 
         console.log(signupRequest)
 
@@ -134,9 +146,9 @@ const Signup = (props) => {
         return { validateStatus: 'success', errorMsg: null };
     };
 
-    const validateSifra = (sifra) => {
-        return { validateStatus: 'success', errorMsg: null };
-    };
+    // const validateSifra = (sifra) => {
+    //     return { validateStatus: 'success', errorMsg: null };
+    // };
 
     return (
         <div className="signup-container">
@@ -221,7 +233,7 @@ const Signup = (props) => {
                     <FormItem
                         name="sifra"
                         label="Code for admin:"
-                        validateStatus={validation.sifra?.validateStatus}
+                        // validateStatus={validation.sifra?.validateStatus}
                         help={validation.sifra?.errorMsg}
                     >
                         <Input
