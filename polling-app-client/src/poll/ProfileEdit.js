@@ -6,7 +6,7 @@ import {
     NAME_MIN_LENGTH, NAME_MAX_LENGTH,
     EMAIL_MAX_LENGTH
 } from "../constants";
-import { Form, Button, notification } from 'antd';
+import {Form, Button, notification, Input} from 'antd';
 
 const { Item: FormItem } = Form;
 
@@ -208,7 +208,7 @@ const ProfileEdit = (props) => {
                     >
                         Current name: {currentUser.name} &nbsp;
                         New: &nbsp;
-                        <input
+                        <Input
                             className="input-name"
                             type="text"
                             name="name"
@@ -223,7 +223,7 @@ const ProfileEdit = (props) => {
                     >
                         Current email: {currentUser.email} &nbsp;
                         New: &nbsp;
-                        <input
+                        <Input
                             className="input-email"
                             type="email"
                             name="email"
