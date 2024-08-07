@@ -200,14 +200,13 @@ const ProfileEdit = (props) => {
     return (
         currentUser ? (
             <div className="main-profile-edit">
-                <Form onSubmitCapture={handleSubmit} className="signup-form">
+                <Form onSubmitCapture={handleSubmit} className="edit-profile-form">
                     <FormItem
                         hasFeedback
                         validateStatus={name.validateStatus}
                         help={name.errorMsg}
                     >
-                        Current name: {currentUser.name} &nbsp;
-                        New: &nbsp;
+                        New name:  &nbsp;  &nbsp;
                         <Input
                             className="input-name"
                             type="text"
@@ -215,14 +214,14 @@ const ProfileEdit = (props) => {
                             value={name.value}
                             onChange={(event) => handleInputChange(event, validateName)}
                         />
+                        &nbsp;  &nbsp; Current name: {currentUser.name}
                     </FormItem>
                     <FormItem
                         hasFeedback
                         validateStatus={email.validateStatus}
                         help={email.errorMsg}
                     >
-                        Current email: {currentUser.email} &nbsp;
-                        New: &nbsp;
+                        New email: &nbsp;  &nbsp;
                         <Input
                             className="input-email"
                             type="email"
@@ -231,6 +230,7 @@ const ProfileEdit = (props) => {
                             value={email.value}
                             onChange={(event) => handleInputChange(event, validateEmail)}
                         />
+                        &nbsp;  &nbsp; Current email: {currentUser.email}
                     </FormItem>
                     <FormItem>
                         <Button

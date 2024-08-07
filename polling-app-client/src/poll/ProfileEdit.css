@@ -1,10 +1,23 @@
 .main-profile-edit {
     font-size: 20px;
-    text-align: center;
+    text-align: left; /* Ensure text alignment to the left */
     padding: 20px;
     min-height: 90vh;
+    position: relative; /* Relative positioning for the parent container */
 }
 
+.edit-profile-form {
+    position: absolute; /* Absolute positioning */
+    left: 40%; /* Start at 40% from the left */
+    transform: translateX(-40%); /* Offset to ensure the form starts at 40% */
+}
+
+
+.input-name,
+.input-email {
+    width: 350px; /* Adjust width as necessary */
+    margin: 0 10px; /* Margin for spacing between inputs and labels */
+}
 
 .update-profile-form-button {
     width: 15%;
@@ -17,16 +30,4 @@
     color: #fff;
     background-color: #1890ff;
     border-color: #1890ff;
-}
-
-.input-email {
-    width: 300px;
-}
-
-.input-name {
-    width: 300px;
-}
-
-.input-username {
-    width: 300px;
 }

@@ -162,11 +162,13 @@ const NewPoll = (props) => {
                         </Button>
                     </FormItem>
                     <FormItem className="poll-form-row">
-                        <Col xs={24} sm={4}>
+                        <Col xs={24} sm={14}>
                             Poll length:
                         </Col>
-                        <Col xs={24} sm={20}>
+                        <br/>
+                        <Col xs={24} sm={25}>
                             <span style={{ marginRight: '18px' }}>
+                                Days &nbsp;
                                 <Select
                                     name="days"
                                     value={pollLength.days}
@@ -178,9 +180,10 @@ const NewPoll = (props) => {
                                             {i}
                                         </Option>
                                     ))}
-                                </Select> &nbsp;Days
+                                </Select> &nbsp;
                             </span>
                             <span>
+                                Hours &nbsp;
                                 <Select
                                     name="hours"
                                     value={pollLength.hours}
@@ -192,7 +195,7 @@ const NewPoll = (props) => {
                                             {i}
                                         </Option>
                                     ))}
-                                </Select> &nbsp;Hours
+                                </Select> &nbsp;
                             </span>
                         </Col>
                     </FormItem>
