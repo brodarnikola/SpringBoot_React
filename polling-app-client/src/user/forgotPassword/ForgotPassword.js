@@ -105,6 +105,8 @@ const ForgotPassword = () => {
                         >
                             Password recovery
                         </Button>
+                        <br/>
+                        <br/>
                         Already registered? <Link to="/login">Login now!</Link>
                     </FormItem>
                 </Form>

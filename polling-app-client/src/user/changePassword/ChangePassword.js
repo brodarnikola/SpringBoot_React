@@ -158,6 +158,7 @@ const ChangePassword = () => {
                         >
                             Update password
                         </Button>
+                        <br/>
                         Already registered? <Link to="/login">Login now!</Link>
                     </FormItem>
                 </Form>

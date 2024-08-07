@@ -97,7 +97,8 @@ class Profile extends Component {
                             <div className="user-poll-details">    
                                 <Tabs defaultActiveKey="1" 
                                     animated={false}
-                                      componentWillMount       tabBarStyle={tabBarStyle}
+                                      componentWillMount
+                                      tabBarStyle={tabBarStyle}
                                     size="large"
                                     className="profile-tabs">
                                     <TabPane tab={`${this.state.user.pollCount} Polls`} key="1">
