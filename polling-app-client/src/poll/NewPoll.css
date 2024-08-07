@@ -1,7 +1,21 @@
 .new-poll-container {
-    max-width: 520px;
-    margin: 0 auto;
+    /*max-width: 520px;*/
+    /*margin: 0 auto;
     margin-top: 40px;
+
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    border: 2px solid #d1ff28;*/
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    justify-content: flex-start; /* Align items to the top */
+    align-items: center; /* Center items horizontally */
+    width: 95vw; /* Full viewport width */
+    height: 85vh; /* Full viewport height */
+    margin: 0 auto;
+    padding: 20px; /* Optional: Add padding if needed */
+    box-sizing: border-box;
 }
 
 .create-poll-form-button {

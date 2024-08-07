@@ -243,10 +243,6 @@ class PollList extends Component {
                 {
                     !this.state.isLoading && this.state.polls.length === 0 ? (
                         <div className="no-polls-found">
-                            {/*<span>No Polls Found.</span>*/}
-                            {/*<Button type="dashed" onClick={this.handleLoadMore} disabled={this.state.isLoading}>*/}
-                            {/*    <PlusOutlined type="plus" /> Load more*/}
-                            {/*</Button>*/}
                         </div>    
                     ): null
                 }  

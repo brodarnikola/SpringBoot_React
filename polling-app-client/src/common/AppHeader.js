@@ -59,7 +59,6 @@ class AppHeader extends Component {
 
         return (
            <Header className="app-header">
-            <div className="container">
               <div className="app-title" >
                 <Link to="/">Polling App</Link>
               </div>
@@ -67,10 +66,9 @@ class AppHeader extends Component {
                 className="app-menu"
                 mode="horizontal"
                 selectedKeys={[this.props.location.pathname]}
-                style={{ lineHeight: '30px' }} >
+               >
                   {menuItems}
               </Menu>
-            </div>
           </Header>
         );
     }

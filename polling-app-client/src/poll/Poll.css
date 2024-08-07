@@ -1,7 +1,8 @@
 .polls-container {
     max-width: 600px;
     margin: 0 auto;    
-    margin-top: 20px; 
+    margin-top: 20px;
+    min-height: 100vh;
 }
 
 .poll-content {

@@ -14,8 +14,10 @@
   }
   
   .app-header {
-    position: fixed;
-    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: normal;
+    background: #1ce8e8;
     box-shadow: 0 2px 8px #f0f1f2;
     z-index: 10;
     padding: 0px 150px 0px 150px;
