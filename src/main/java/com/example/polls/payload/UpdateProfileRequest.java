@@ -67,41 +67,4 @@ public class UpdateProfileRequest {
         this.name = name;
     }
 
-
-    /* private class UpdateProfileOldData {
-
-        private String oldUsername;
-        private String oldEmail;
-        private String oldName;
-
-        public UpdateProfileOldData(String oldUsername, String oldEmail, String oldName) {
-            this.oldUsername = oldUsername;
-            this.oldEmail = oldEmail;
-            this.oldName = oldName;
-        }
-
-        public String getOldUsername() {
-            return oldUsername;
-        }
-
-        public void setOldUsername(String oldUsername) {
-            this.oldUsername = oldUsername;
-        }
-
-        public String getOldEmail() {
-            return oldEmail;
-        }
-
-        public void setOldEmail(String oldEmail) {
-            this.oldEmail = oldEmail;
-        }
-
-        public String getOldName() {
-            return oldName;
-        }
-
-        public void setOldName(String oldName) {
-            this.oldName = oldName;
-        }
-    } */
 }

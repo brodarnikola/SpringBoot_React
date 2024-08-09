@@ -3,7 +3,7 @@ package com.example.polls.service;
 import java.util.Arrays;
 import java.util.Calendar;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 import com.example.polls.model.VerificationToken;
 import com.example.polls.model.User;

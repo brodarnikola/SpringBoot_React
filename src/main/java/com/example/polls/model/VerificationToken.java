@@ -1,6 +1,6 @@
 package com.example.polls.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Calendar;
 import java.util.Date;
 

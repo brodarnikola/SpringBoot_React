@@ -1,6 +1,6 @@
 package com.example.polls.payload;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 /**
  * Created by rajeevkumarsingh on 02/08/17.
