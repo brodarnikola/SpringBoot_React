@@ -21,9 +21,6 @@ package com.example.polls.config;
 //import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 //
 //
-///**
-// * Created by rajeevkumarsingh on 01/08/17.
-// */
 //
 //@Configuration
 //@EnableWebSecurity
@@ -52,10 +49,10 @@ package com.example.polls.config;
 //                .passwordEncoder(passwordEncoder());
 //    }
 //
-//    /* @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
-//    } */
+////     @Autowired
+////    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+////        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
+////    }
 //
 //    @Bean(BeanIds.AUTHENTICATION_MANAGER)
 //    @Override
@@ -121,15 +118,21 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    private final long MAX_AGE_SECS = 3600;
 
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtAuthenticationEntryPoint unauthorizedHandler;
@@ -155,19 +158,54 @@ public class SecurityConfig {
     }
 
     @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("*")
+                        .allowedMethods("HEAD", "OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE")
+                        .maxAge(MAX_AGE_SECS);
+//                registry.addMapping("/**")
+//                        .allowedOrigins("http://allowed-origin.com")
+//                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+            }
+        };
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
 //                .cors().and().csrf().disable()
-//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+//                .corsCustomizer(cors -> cors.disable()) // Update for CORS
+//                .exceptionHandlingCustomizer(exceptionHandling -> exceptionHandling.disable()) // Update for exception handling
+//                .sessionManagementCustomizer(sessionManagement -> sessionManagement.disable()) // Update for session management
+
                 .authorizeHttpRequests(authorizeRequests ->
-                        authorizeRequests
-                                .requestMatchers("/", "/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js").permitAll()
-                                .requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/polls/**", "/api/users/**").permitAll()
-                                .requestMatchers("/forgotPassword*", "/changePassword*", "/user/savePassword*").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
-                                .anyRequest().authenticated()
+                                authorizeRequests
+//                                .requestMatchers("/", "/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js").permitAll()
+                                        .requestMatchers("/").permitAll()
+
+                                        .requestMatchers("/api/auth/**").permitAll()
+                                        .requestMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability").permitAll()
+                                        .requestMatchers(HttpMethod.GET, "/api/polls/**", "/api/users/**").permitAll()
+                                        .requestMatchers("/forgotPassword*", "/changePassword*", "/user/savePassword*").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
+                                        .anyRequest().authenticated()
+                )
+
+//                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
+
+//                .addFilterBefore(new CustomFilter(), UsernamePasswordAuthenticationFilter.class) // Example of adding a custom filter
+
+//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .exceptionHandling(exceptionHandling ->
+                        exceptionHandling.authenticationEntryPoint(unauthorizedHandler)
+                )
+
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .sessionManagement(sessionManagement ->
+                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );
 
         // Add our custom JWT security filter
@@ -175,4 +213,12 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    // Define your custom filter if needed
+//    public static class CustomFilter extends BasicAuthenticationFilter {
+//        public CustomFilter() {
+//            super(null);
+//        }
+//        // Custom implementation here
+//    }
 }
