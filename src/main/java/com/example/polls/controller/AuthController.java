@@ -85,7 +85,7 @@ public class AuthController {
     private RegistrationListener registrationListener;
 
     @PostMapping("/forgotPassword")
-    public ResponseEntity<?> forgotPassword(@Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest) {
+    public ResponseEntity<?> forgotPassword(@Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest) throws MessagingException {
 
         User user = userRepository.findByUsernameOrEmail("", forgotPasswordRequest.getEmail())
                 .orElseThrow(() ->
@@ -121,7 +121,7 @@ public class AuthController {
         passwordResetTokenRepository.save(myToken);
     }
 
-    private SimpleMailMessage constructResetTokenEmail(String token, User user) {
+    private MimeMessage constructResetTokenEmail(String token, User user) throws MessagingException {
 
         String url = getAppUrl() + "/changePassword?id=" +
                 user.getId() + "&token=" + token;
@@ -129,13 +129,21 @@ public class AuthController {
                 "Reset password message: " + url + " \r\n", user);
     }
 
-    private SimpleMailMessage constructEmail(String subject, String body,
-                                             User user) {
-        SimpleMailMessage email = new SimpleMailMessage();
-        email.setSubject(subject);
-        email.setText(body);
-        email.setTo(user.getEmail());
-        email.setFrom(env.getProperty("support.email"));
+    private MimeMessage  constructEmail(String subject, String body,
+                                             User user) throws MessagingException {
+        MimeMessage  email = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(email, true);
+
+//        email.setSubject(subject);
+//        email.setText(body, true);
+//        email.setTo(user.getEmail());
+//        email.setFrom(env.getProperty("support.email"));
+
+        helper.setSubject(subject);
+        helper.setText(body, true); // Set to true to enable HTML
+        helper.setTo(user.getEmail());
+        helper.setFrom(env.getProperty("support.email"));
+
         return email;
     }
 
