@@ -16,6 +16,7 @@ class Profile extends Component {
         super(props);
         this.state = {
             user: null,
+            isAuthenticated: false,
             isLoading: false
         }
         this.loadUserProfile = this.loadUserProfile.bind(this);
@@ -30,6 +31,7 @@ class Profile extends Component {
         .then(response => {
             this.setState({
                 user: response,
+                isAuthenticated: true,
                 isLoading: false
             });
         }).catch(error => {
@@ -102,7 +104,7 @@ class Profile extends Component {
                                     size="large"
                                     className="profile-tabs">
                                     <TabPane tab={`${this.state.user.pollCount} Polls`} key="1">
-                                        <PollList username={this.props.match.params.username} type="USER_CREATED_POLLS" />
+                                        <PollList username={this.props.match.params.username}  isAuthenticated={this.state.isAuthenticated}  type="USER_CREATED_POLLS" />
                                     </TabPane>
                                     <TabPane tab={`${this.state.user.voteCount} Votes`}  key="2">
                                         <PollList username={this.props.match.params.username} type="USER_VOTED_POLLS" />
