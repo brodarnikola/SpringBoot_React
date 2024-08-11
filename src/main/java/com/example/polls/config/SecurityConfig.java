@@ -144,12 +144,13 @@ public class SecurityConfig {
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter();
+        return new JwtAuthenticationFilter(customUserDetailsService);
     }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
+        return authenticationConfiguration
+                .getAuthenticationManager();
     }
 
     @Bean
@@ -181,6 +182,8 @@ public class SecurityConfig {
 //                .exceptionHandlingCustomizer(exceptionHandling -> exceptionHandling.disable()) // Update for exception handling
 //                .sessionManagementCustomizer(sessionManagement -> sessionManagement.disable()) // Update for session management
 
+                .csrf(AbstractHttpConfigurer::disable)
+
                 .authorizeHttpRequests(authorizeRequests ->
                                 authorizeRequests
 //                                .requestMatchers("/", "/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js").permitAll()
@@ -194,7 +197,6 @@ public class SecurityConfig {
                 )
 
 //                .csrf(csrf -> csrf.disable())
-                .csrf(AbstractHttpConfigurer::disable)
 
 //                .addFilterBefore(new CustomFilter(), UsernamePasswordAuthenticationFilter.class) // Example of adding a custom filter
 
