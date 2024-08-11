@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -22,15 +23,17 @@ import java.io.IOException;
 /**
  * Created by nikolaBrodar on 19/08/17.
  */
+
+@Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtTokenProvider tokenProvider;
 
-//    @Autowired
-//    private CustomUserDetailsService customUserDetailsService;
+    @Autowired
+     private CustomUserDetailsService customUserDetailsService;
 
-    private final UserDetailsService userDetailsService;
+//    private final UserDetailsService userDetailsService;
 
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
@@ -38,9 +41,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 //        this.userDetailsService = userDetailsService1;
 //    }
 
-    public JwtAuthenticationFilter( UserDetailsService userDetailsService1) {
-        this.userDetailsService = userDetailsService1;
-    }
+//    public JwtAuthenticationFilter( CustomUserDetailsService userDetailsService) {
+//        this.customUserDetailsService = userDetailsService;
+//    }
 
     @Override
     protected void doFilterInternal(@NonNull  HttpServletRequest request,  @NonNull  HttpServletResponse response,  @NonNull  FilterChain filterChain) throws ServletException, IOException {
@@ -60,7 +63,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (userEmail != null && authenticationData == null) {
                 Long userId = tokenProvider.getUserIdFromJWT(jwt);
-                UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
+                UserDetails userDetails = customUserDetailsService.loadUserById(userId);
 //                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
                 if (tokenProvider.isTokenValid(jwt, userDetails)) {
