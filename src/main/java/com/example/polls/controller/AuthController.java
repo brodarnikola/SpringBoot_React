@@ -29,19 +29,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import jakarta.validation.Valid;
 import java.net.URI;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Locale;
-import java.util.UUID;
+import java.util.*;
 
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+
 
 
 /**
@@ -85,7 +78,7 @@ public class AuthController {
     private RegistrationListener registrationListener;
 
     @PostMapping("/forgotPassword")
-    public ResponseEntity<?> forgotPassword(@Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest) throws MessagingException {
+    public ResponseEntity<?> forgotPassword(@Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest) {
 
         User user = userRepository.findByUsernameOrEmail("", forgotPasswordRequest.getEmail())
                 .orElseThrow(() ->
@@ -121,7 +114,7 @@ public class AuthController {
         passwordResetTokenRepository.save(myToken);
     }
 
-    private MimeMessage constructResetTokenEmail(String token, User user) throws MessagingException {
+    private SimpleMailMessage constructResetTokenEmail(String token, User user) {
 
         String url = getAppUrl() + "/changePassword?id=" +
                 user.getId() + "&token=" + token;
@@ -129,22 +122,31 @@ public class AuthController {
                 "Reset password message: " + url + " \r\n", user);
     }
 
-    private MimeMessage  constructEmail(String subject, String body,
-                                             User user) throws MessagingException {
-        MimeMessage  email = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(email, true);
+    private SimpleMailMessage  constructEmail(String subject, String body,
+                                             User user) {
 
-//        email.setSubject(subject);
-//        email.setText(body, true);
-//        email.setTo(user.getEmail());
-//        email.setFrom(env.getProperty("support.email"));
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(user.getEmail());
+        message.setSubject(subject);
+        message.setText(body);
 
-        helper.setSubject(subject);
-        helper.setText(body, true); // Set to true to enable HTML
-        helper.setTo(user.getEmail());
-        helper.setFrom(env.getProperty("support.email"));
+        return message;
+//        MimeMessage  email = mailSender.createMimeMessage();
+//        MimeMessageHelper helper = new MimeMessageHelper(email, true);
+//
+////        email.setSubject(subject);
+////        email.setText(body, true);
+////        email.setTo(user.getEmail());
+////        email.setFrom(env.getProperty("support.email"));
+//
+//        helper.setSubject(subject);
+//        helper.setText(body, true); // Set to true to enable HTML
+//        helper.setTo(user.getEmail());
+//        helper.setFrom("brodarnikola7@gmail.com");
+//        helper.setFrom(Objects.requireNonNull(env.getProperty("support.email")));
+//        helper.setFrom(env.getProperty("support.email"));
 
-        return email;
+//        return email;
     }
 
     @RequestMapping(value = "/changePassword", method = RequestMethod.GET)

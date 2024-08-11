@@ -20,6 +20,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
 /**
  * Created by nikolaBrodar on 19/08/17.
  */
@@ -46,18 +47,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 //    }
 
     @Override
-    protected void doFilterInternal(@NonNull  HttpServletRequest request,  @NonNull  HttpServletResponse response,  @NonNull  FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         try {
 
             final String authHeader = request.getHeader("Authorization");
 
             if (authHeader == null || !authHeader.startsWith("Bearer")) {
+                logger.debug("Request is: {}", request);
                 filterChain.doFilter(request, response);
                 return;
             }
 
             final String jwt = getJwtFromRequest(request); // authHeader.substring(7);
             final String userEmail = tokenProvider.extractUsername(jwt);
+            logger.debug("Continue request.. jwt is: {}", jwt);
 
             Authentication authenticationData = SecurityContextHolder.getContext().getAuthentication();
 
