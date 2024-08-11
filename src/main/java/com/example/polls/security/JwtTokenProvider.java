@@ -72,8 +72,9 @@ public class JwtTokenProvider {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+//        final String username = extractUsername(token);
+//        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        return  !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {
@@ -100,24 +101,34 @@ public class JwtTokenProvider {
 
 
 
-//    public Long getUserIdFromJWT(String token) {
-////        SecretKey key = new SecretKeySpec(jwtSecret.getBytes(), SignatureAlgorithm.HS512.getJcaName());
-////
-////        Claims claims = Jwts.parser()
-////                .verifyWith(key) // Convert secret to bytes
-////                .build()
-////                .parseSignedClaims(token)
-////                .getPayload();
+    public Long getUserIdFromJWT(String token) {
+//        SecretKey key = new SecretKeySpec(jwtSecret.getBytes(), SignatureAlgorithm.HS512.getJcaName());
 //
+//        Claims claims = Jwts.parser()
+//                .verifyWith(key) // Convert secret to bytes
+//                .build()
+//                .parseSignedClaims(token)
+//                .getPayload();
+
+        Claims claims = Jwts
+                .parserBuilder()
+                .setSigningKey(getSignInKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+
+        logger.debug("user id is: {}", Long.parseLong(claims.getSubject()));
+
 //        Claims claims = Jwts
 //                .parser()
 //                .setSigningKey(getSignInKey())
 //                .build()
 //                .parseSignedClaims(token)
 //                .getPayload();
-//
-//        return Long.parseLong(claims.getSubject());
-//    }
+
+        return Long.parseLong(claims.getSubject());
+    }
 
     public boolean validateToken(String authToken) {
         try {

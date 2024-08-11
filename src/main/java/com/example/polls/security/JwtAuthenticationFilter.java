@@ -27,15 +27,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private JwtTokenProvider tokenProvider;
 
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+//    @Autowired
+//    private CustomUserDetailsService customUserDetailsService;
 
     private final UserDetailsService userDetailsService;
 
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
-    public JwtAuthenticationFilter(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
+//    public JwtAuthenticationFilter(CustomUserDetailsService userDetailsService ) {
+//        this.userDetailsService = userDetailsService1;
+//    }
+
+    public JwtAuthenticationFilter( UserDetailsService userDetailsService1) {
+        this.userDetailsService = userDetailsService1;
     }
 
     @Override
@@ -55,7 +59,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             Authentication authenticationData = SecurityContextHolder.getContext().getAuthentication();
 
             if (userEmail != null && authenticationData == null) {
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+                Long userId = tokenProvider.getUserIdFromJWT(jwt);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
+//                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
                 if (tokenProvider.isTokenValid(jwt, userDetails)) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
