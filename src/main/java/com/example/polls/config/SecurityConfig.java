@@ -144,7 +144,7 @@ public class SecurityConfig {
 
 //    private final AuthenticationProvider authenticationProvider;
 
-     private final CustomUserDetailsService customUserDetailsService;
+    private final CustomUserDetailsService customUserDetailsService;
     private final JwtAuthenticationEntryPoint unauthorizedHandler;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
