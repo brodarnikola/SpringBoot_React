@@ -131,22 +131,6 @@ public class AuthController {
         message.setText(body);
 
         return message;
-//        MimeMessage  email = mailSender.createMimeMessage();
-//        MimeMessageHelper helper = new MimeMessageHelper(email, true);
-//
-////        email.setSubject(subject);
-////        email.setText(body, true);
-////        email.setTo(user.getEmail());
-////        email.setFrom(env.getProperty("support.email"));
-//
-//        helper.setSubject(subject);
-//        helper.setText(body, true); // Set to true to enable HTML
-//        helper.setTo(user.getEmail());
-//        helper.setFrom("brodarnikola7@gmail.com");
-//        helper.setFrom(Objects.requireNonNull(env.getProperty("support.email")));
-//        helper.setFrom(env.getProperty("support.email"));
-
-//        return email;
     }
 
     @RequestMapping(value = "/changePassword", method = RequestMethod.GET)

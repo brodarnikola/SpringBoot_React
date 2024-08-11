@@ -34,17 +34,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
      private CustomUserDetailsService customUserDetailsService;
 
-//    private final UserDetailsService userDetailsService;
-
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
-//    public JwtAuthenticationFilter(CustomUserDetailsService userDetailsService ) {
-//        this.userDetailsService = userDetailsService1;
-//    }
-
-//    public JwtAuthenticationFilter( CustomUserDetailsService userDetailsService) {
-//        this.customUserDetailsService = userDetailsService;
-//    }
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {

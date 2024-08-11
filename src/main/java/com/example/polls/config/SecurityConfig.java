@@ -137,7 +137,6 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
-import java.util.Properties;
 
 @Configuration
 @EnableWebSecurity
@@ -145,18 +144,9 @@ public class SecurityConfig {
 
     private final long MAX_AGE_SECS = 3600;
 
-//    private final AuthenticationProvider authenticationProvider;
-
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtAuthenticationEntryPoint unauthorizedHandler;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
-//    public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtAuthenticationEntryPoint unauthorizedHandler,
-//                          AuthenticationProvider authenticationProvider) {
-//        this.customUserDetailsService = customUserDetailsService;
-//        this.unauthorizedHandler = unauthorizedHandler;
-//        this.authenticationProvider = authenticationProvider;
-//    }
 
     public SecurityConfig(
             CustomUserDetailsService customUserDetailsService,
@@ -228,23 +218,23 @@ public class SecurityConfig {
         return source;
     }
 
-    @Bean
-    public JavaMailSender getJavaMailSender() {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(587);
-
-        mailSender.setUsername("brodarnikola7@gmail.com");
-        mailSender.setPassword("qvvu kilp vijb cgrp");
-
-        Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "true");
-
-        return mailSender;
-    }
+//    @Bean
+//    public JavaMailSender getJavaMailSender() {
+//        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+//        mailSender.setHost("smtp.gmail.com");
+//        mailSender.setPort(587);
+//
+//        mailSender.setUsername("brodarnikola7@gmail.com");
+//        mailSender.setPassword("qvvu kilp vijb cgrp");
+//
+//        Properties props = mailSender.getJavaMailProperties();
+//        props.put("mail.transport.protocol", "smtp");
+//        props.put("mail.smtp.auth", "true");
+//        props.put("mail.smtp.starttls.enable", "true");
+//        props.put("mail.debug", "true");
+//
+//        return mailSender;
+//    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -252,15 +242,6 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
 
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Use the CorsConfigurationSource bean
-
-//                .cors(corsCustomizer -> {
-//                    // Use the custom CORS configuration from your WebMvcConfigurer bean
-//                    corsCustomizer.configurationSource(request -> {
-//                        CorsRegistry registry = new CorsRegistry();
-//                        corsConfigurer().addCorsMappings(registry);
-//                        return registry.getCorsConfigurations().get(request.getRequestURI());
-//                    });
-//                })
 
                 .authorizeHttpRequests(authorizeRequests ->
                                 authorizeRequests
@@ -279,23 +260,14 @@ public class SecurityConfig {
 
                                         .anyRequest().authenticated()
                 )
-
-//                .csrf(csrf -> csrf.disable())
-
-//                .addFilterBefore(new CustomFilter(), UsernamePasswordAuthenticationFilter.class) // Example of adding a custom filter
-
-//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-
                 .exceptionHandling(exceptionHandling ->
                         exceptionHandling.authenticationEntryPoint(unauthorizedHandler)
                 )
 
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
 
-//                .authenticationProvider(authenticationProvider)
         ;
 
         // Add our custom JWT security filter
@@ -303,29 +275,4 @@ public class SecurityConfig {
 
         return http.build();
     }
-
-//    @Bean
-//    CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//
-//        // Replace "http://localhost:8005" with your frontend's URL
-////        configuration.setAllowedOrigins(List.of("http://localhost:5000"));
-//        configuration.setAllowedOrigins(List.of("*", "http://localhost:5000"));
-//        configuration.setAllowedMethods(List.of("HEAD", "OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE"));
-//        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-//        configuration.setAllowCredentials(true); // If you're handling credentials
-//
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//
-//        return source;
-//    }
-
-    // Define your custom filter if needed
-//    public static class CustomFilter extends BasicAuthenticationFilter {
-//        public CustomFilter() {
-//            super(null);
-//        }
-//        // Custom implementation here
-//    }
 }
