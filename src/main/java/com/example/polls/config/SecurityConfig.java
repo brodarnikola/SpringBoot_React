@@ -69,15 +69,15 @@ public class SecurityConfig {
 //        this.unauthorizedHandler = unauthorizedHandler;
 //    }
 
-    @Bean
-    AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
-        authProvider.setUserDetailsService(customUserDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder());
-
-        return authProvider;
-    }
+//    @Bean
+//    AuthenticationProvider authenticationProvider() {
+//        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+//
+//        authProvider.setUserDetailsService(customUserDetailsService);
+//        authProvider.setPasswordEncoder(passwordEncoder());
+//
+//        return authProvider;
+//    }
 
 //    @Bean
 //    public JwtAuthenticationFilter jwtAuthenticationFilter() {
@@ -181,9 +181,14 @@ public class SecurityConfig {
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
 
-                .oauth2Login(oauth2 -> oauth2
-                        .successHandler(oAuth2SuccessHandler())  // Redirect after successful login
-                );
+                .oauth2Login(oauth2Login -> oauth2Login
+                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(customOauth2UserService))
+                        .successHandler(customAuthenticationSuccessHandler))
+                .logout(l -> l.logoutSuccessUrl("/").permitAll())
+//                .oauth2Login(oauth2 -> oauth2
+//                        .successHandler(oAuth2SuccessHandler())  // Redirect after successful login
+//                )
+        ;
 
 //                .oauth2Login(withDefaults())
 
@@ -198,8 +203,10 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public SimpleUrlAuthenticationSuccessHandler oAuth2SuccessHandler() {
-        return new SimpleUrlAuthenticationSuccessHandler("http://localhost:3000/login");
-    }
+//    @Bean
+//    public SimpleUrlAuthenticationSuccessHandler oAuth2SuccessHandler() {
+//        return new SimpleUrlAuthenticationSuccessHandler("http://localhost:3000/login");
+//    }
+
+
 }

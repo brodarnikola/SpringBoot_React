@@ -1,6 +1,5 @@
 package com.example.polls.security.oauth2;
 
-import com.example.polls.config.SecurityConfig;
 import com.example.polls.exception.AppException;
 import com.example.polls.model.Role;
 import com.example.polls.model.RoleName;
