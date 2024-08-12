@@ -3,6 +3,7 @@ package com.example.polls.service;
 import java.util.Arrays;
 import java.util.Calendar;
 
+import com.example.polls.security.TokenProvider;
 import jakarta.transaction.Transactional;
 
 import com.example.polls.model.VerificationToken;
@@ -10,7 +11,6 @@ import com.example.polls.model.User;
 import com.example.polls.payload.JwtAuthenticationResponse;
 import com.example.polls.repository.PasswordResetTokenRepository;
 import com.example.polls.security.CustomUserDetailsService;
-import com.example.polls.security.JwtTokenProvider;
 import com.example.polls.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +37,7 @@ public class UserSecurityService implements ISecurityUserService {
 
 
     @Autowired
-    JwtTokenProvider tokenProvider;
+    TokenProvider tokenProvider;
 
     // API
     @Override
@@ -61,7 +61,7 @@ public class UserSecurityService implements ISecurityUserService {
         SecurityContextHolder.getContext().setAuthentication(auth);
 
 
-        String jwt = tokenProvider.generateToken(auth);
+        String jwt = tokenProvider.generate(auth);
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
     }
 

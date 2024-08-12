@@ -1,6 +1,7 @@
 package com.example.polls.model;
 
 import com.example.polls.model.audit.DateAudit;
+import com.example.polls.security.oauth2.OAuth2Provider;
 import org.hibernate.annotations.NaturalId;
 
 import jakarta.persistence.*;
@@ -53,6 +54,12 @@ public class User extends DateAudit implements Serializable {
     @Column(name = "enabled", columnDefinition="BOOLEAN default false")
     private boolean enabled;
 
+    @Enumerated(EnumType.STRING)
+    private OAuth2Provider provider;
+
+    private String providerId;
+
+
     public User() {
 
         this.enabled=false;
@@ -64,6 +71,22 @@ public class User extends DateAudit implements Serializable {
         this.email = email;
         this.password = password;
         this.enabled=false;
+    }
+
+    public OAuth2Provider getProvider() {
+        return provider;
+    }
+
+    public void setProvider(OAuth2Provider provider) {
+        this.provider = provider;
+    }
+
+    public String getProviderId() {
+        return providerId;
+    }
+
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
     }
 
     public Long getId() {

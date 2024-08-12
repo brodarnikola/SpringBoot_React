@@ -1,33 +1,60 @@
 package com.example.polls.security;
 
 import com.example.polls.model.User;
+import com.example.polls.security.oauth2.OAuth2Provider;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class UserPrincipal implements UserDetails {
 
+@Data
+public class UserPrincipal implements OAuth2User, UserDetails {
+
+    @Getter
     private Long id;
 
+    @Getter
     private String name;
 
     private String username;
 
+    @Getter
     @JsonIgnore
     private String email;
 
+    @Setter
     @JsonIgnore
     private String password;
 
     private Collection<? extends GrantedAuthority> authorities;
 
+    @Getter
     private boolean enabledUser;
+
+    private OAuth2Provider provider;
+    private Map<String, Object> attributes;
+
+    @Override
+    public <A> A getAttribute(String name) {
+        return OAuth2User.super.getAttribute(name);
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return Map.of();
+    }
+
 
     public UserPrincipal() {
 
@@ -61,18 +88,6 @@ public class UserPrincipal implements UserDetails {
         );
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
     @Override
     public String getUsername() {
         return username;
@@ -81,10 +96,6 @@ public class UserPrincipal implements UserDetails {
     @Override
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     @Override
@@ -110,14 +121,6 @@ public class UserPrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    public boolean isEnabledUser() {
-        return enabledUser;
-    }
-
-    public void setEnabledUser(boolean enabledUser) {
-        this.enabledUser = enabledUser;
     }
 
     @Override

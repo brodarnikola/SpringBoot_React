@@ -7,7 +7,7 @@ import com.example.polls.payload.*;
 import com.example.polls.repository.PasswordResetTokenRepository;
 import com.example.polls.repository.RoleRepository;
 import com.example.polls.repository.UserRepository;
-import com.example.polls.security.JwtTokenProvider;
+import com.example.polls.security.TokenProvider;
 import com.example.polls.security.UserPrincipal;
 import com.example.polls.service.RegistrationListener;
 import com.example.polls.service.UserSecurityService;
@@ -72,7 +72,7 @@ public class AuthController {
     private Environment env;
 
     @Autowired
-    JwtTokenProvider tokenProvider;
+    TokenProvider tokenProvider;
 
     @Autowired
     private RegistrationListener registrationListener;
@@ -192,7 +192,7 @@ public class AuthController {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            String jwt = tokenProvider.generateToken(authentication);
+            String jwt = tokenProvider.generate(authentication);
             return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
         } else
             return new ResponseEntity(new ApiResponse(false, "You did not confirm your link in email. " +

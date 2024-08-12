@@ -1,18 +1,20 @@
 import React from 'react';
-import { login } from '../../util/APIUtils';
+import {login} from '../../util/APIUtils';
 import './Login.css';
-import { Link } from 'react-router-dom';
-import { ACCESS_TOKEN } from '../../constants';
+import {Link} from 'react-router-dom';
+import {ACCESS_TOKEN} from '../../constants';
 
-import { Form, Input, Button, notification } from 'antd';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import {Form, Input, Button, notification} from 'antd';
+import {LockOutlined, UserOutlined} from '@ant-design/icons';
+
+import GithubIcon from "mdi-react/GithubIcon";
 
 const Login = (props) => {
     return (
         <div className="login-container">
             <h1 className="page-title">Login</h1>
             <div className="login-content">
-                <LoginForm onLogin={props.onLogin} />
+                <LoginForm onLogin={props.onLogin}/>
             </div>
         </div>
     );
@@ -23,7 +25,7 @@ const LoginForm = (props) => {
 
     const handleSubmit = async (values) => {
         try {
-            const loginRequest = { ...values };
+            const loginRequest = {...values};
             const response = await login(loginRequest);
             localStorage.setItem(ACCESS_TOKEN, response.accessToken);
             props.onLogin();
@@ -42,6 +44,10 @@ const LoginForm = (props) => {
         }
     };
 
+    const handleGithubLogin = () => {
+        window.location.href = 'http://localhost:5000/oauth2/authorization/github';
+    };
+
     return (
         <Form
             form={form}
@@ -50,20 +56,20 @@ const LoginForm = (props) => {
         >
             <Form.Item
                 name="usernameOrEmail"
-                rules={[{ required: true, message: 'Please input your username or email!' }]}
+                rules={[{required: true, message: 'Please input your username or email!'}]}
             >
                 <Input
-                    prefix={<UserOutlined />}
+                    prefix={<UserOutlined/>}
                     size="large"
                     placeholder="Username or Email"
                 />
             </Form.Item>
             <Form.Item
                 name="password"
-                rules={[{ required: true, message: 'Please input your Password!' }]}
+                rules={[{required: true, message: 'Please input your Password!'}]}
             >
                 <Input
-                    prefix={<LockOutlined />}
+                    prefix={<LockOutlined/>}
                     size="large"
                     type="password"
                     placeholder="Password"
@@ -73,7 +79,30 @@ const LoginForm = (props) => {
                 <Button type="primary" htmlType="submit" size="large" className="login-form-button">
                     Login
                 </Button>
-                Or <Link to="/signup">register now!</Link> <br />
+                <br/>
+                <br/>
+                <>
+                    {
+                        // Link to request GitHub access
+                    }
+                    <a
+                        // className="login-link"
+                        // href={`https://github.com/login/oauth/authorize?scope=user&client_id=${client_id}&redirect_uri=${redirect_uri}`}
+                        // onClick={() => {
+                        //     // setData({...data, errorMessage: ""});
+                        // }}
+                        onClick={
+                            handleGithubLogin
+                        }
+                    >
+                        <GithubIcon/>
+                        <span>Login with GitHub</span>
+
+                    </a>
+                </>
+                <br/>
+                <br/>
+                Or <Link to="/signup">register now!</Link> <br/>
                 Forgot your password? <Link to="/forgotPassword">Click here to recover it.</Link>
             </Form.Item>
         </Form>
