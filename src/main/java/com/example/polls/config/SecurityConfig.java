@@ -49,10 +49,11 @@ public class SecurityConfig {
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
 
-    private final CustomUserDetailsService customUserDetailsService;
+//    private final CustomUserDetailsService customUserDetailsService;
     private final JwtAuthenticationEntryPoint unauthorizedHandler;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+//    private final TokenProvider tokenProvider;
 
     public static final String ADMIN = "ADMIN";
     public static final String USER = "USER";
@@ -81,7 +82,7 @@ public class SecurityConfig {
 //    }
 
 //    @Bean
-//    public JwtAuthenticationFilter jwtAuthenticationFilter(TokenProvider tokenProvider) {
+//    public JwtAuthenticationFilter jwtAuthenticationFilter() {
 //        return new JwtAuthenticationFilter(tokenProvider, customUserDetailsService);
 //    }
 
@@ -123,7 +124,8 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(List.of(allowedOrigin)); // Replace with your frontend URL
         configuration.setAllowedMethods(List.of("HEAD", "GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-//        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true);
         configuration.setMaxAge(MAX_AGE_SECS);
 
@@ -164,7 +166,10 @@ public class SecurityConfig {
                                         .requestMatchers("/").permitAll()
 
                                         .requestMatchers("/api/auth/**").permitAll()
-                                        .requestMatchers("/oauth2/**", "oauth2/**").permitAll()
+
+                                        .requestMatchers("/login/oauth2/**").permitAll()
+                                        .requestMatchers("oauth2/**", "/oauth2/**").permitAll()
+
                                         .requestMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability").permitAll()
 
 //                                       .requestMatchers(HttpMethod.OPTIONS, "/api/polls/**", "/api/users/**").permitAll()
@@ -187,6 +192,9 @@ public class SecurityConfig {
                 .oauth2Login(oauth2Login -> oauth2Login
                         .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(customOauth2UserService))
                         .successHandler(customAuthenticationSuccessHandler))
+
+//                .oauth2Login(withDefaults())
+
                 .logout(l -> l.logoutSuccessUrl("/").permitAll())
 //                .oauth2Login(oauth2 -> oauth2
 //                        .successHandler(oAuth2SuccessHandler())  // Redirect after successful login

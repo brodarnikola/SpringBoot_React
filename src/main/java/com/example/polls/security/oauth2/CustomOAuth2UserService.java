@@ -6,7 +6,10 @@ import com.example.polls.model.RoleName;
 import com.example.polls.model.User;
 import com.example.polls.repository.RoleRepository;
 import com.example.polls.repository.UserRepository;
+import com.example.polls.security.JwtAuthenticationFilter;
 import com.example.polls.security.UserPrincipal;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -20,6 +23,8 @@ import java.util.Optional;
 @Component
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
+    private static final Logger logger = LoggerFactory.getLogger(CustomOAuth2UserService.class);
+
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final List<OAuth2UserInfoExtractor> oAuth2UserInfoExtractors;
@@ -32,8 +37,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) {
+
+        logger.debug("OAuth2UserRequest is: {}", userRequest);
+
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
+        logger.debug("oAuth2User is: {}", oAuth2User);
         Optional<OAuth2UserInfoExtractor> oAuth2UserInfoExtractorOptional = oAuth2UserInfoExtractors.stream()
                 .filter(oAuth2UserInfoExtractor -> oAuth2UserInfoExtractor.accepts(userRequest))
                 .findFirst();
@@ -68,12 +77,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 //            }
 
             user.setRoles(Collections.singleton(userRole));
+            return userRepository.save(user);
         } else {
             user = userOptional.get();
             user.setEmail(customUserDetails.getEmail());
+            user.setProvider(customUserDetails.getProvider());
 //            user.setImageUrl(customUserDetails.getAvatarUrl());
+            return user;
         }
 
-        return userRepository.save(user);
     }
 }

@@ -1,5 +1,7 @@
 package com.example.polls.security;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +28,19 @@ import java.util.Optional;
  * Created by nikolaBrodar on 19/08/17.
  */
 
+@Slf4j
+@RequiredArgsConstructor
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 //    @Autowired
 //    private JwtTokenProvider tokenProvider;
 
-    @Autowired
-    private TokenProvider tokenProvider;
+//    @Autowired
+    private final TokenProvider tokenProvider;
 
-    @Autowired
-     private CustomUserDetailsService customUserDetailsService;
+//    @Autowired
+     private final CustomUserDetailsService customUserDetailsService;
 
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 

@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: polling_app
+      MYSQL_USER: nikola
+      MYSQL_PASSWORD: Natalija_21?
+      MYSQL_ROOT_PASSWORD: root_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: spring_app
+    ports:
+      - "5001:5000"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/polling_app?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+      - SPRING_DATASOURCE_USERNAME=nikola
+      - SPRING_DATASOURCE_PASSWORD=Natalija_21?
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_SHOW_SQL=true
+      - SPRING_DATASOURCE_DRIVER-CLASS_NAME=com.mysql.cj.jdbc.Driver
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQL8Dialect
+      - SPRING_MAIL_HOST=smtp.gmail.com
+      - SPRING_MAIL_USERNAME=brodarnikola7@gmail.com
+      - SPRING_MAIL_PASSWORD=qvvu kilp vijb cgrp
+      - SPRING_MAIL_PORT=587
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=true
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_SSL_TRUST=smtp.gmail.com
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH=false
+      - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_REQUIRED=false
+      - SPRING_MAIL_PROTOCOL=smtp
+      - APP_JWT_SECRET=7af6ee7ca98ac7c40b69f8983103ea06feef162bf3cf20e65cc0b13e39bfebe8fa904c7701e0f34bcaf11f9c6823a0ed89f251ba10421cab5dc2437970dcc03a
+      - APP_JWT_EXPIRATION_IN_MS=604800000
+      - APP_OAUTH2_REDIRECT_URI=http://localhost:3000/oauth2/redirect
+      - APP_CORS_ALLOWED_ORIGINS=http://localhost:3000
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
