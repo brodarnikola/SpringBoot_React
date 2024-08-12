@@ -24,6 +24,7 @@ import PrivateRoute from '../common/PrivateRoute';
 import {Layout, notification} from 'antd';
 import ProfileEdit from "../poll/ProfileEdit";
 import ChangePassword from "../user/changePassword/ChangePassword";
+import OAuth2Redirect from "../user/login/OAuth2Redirect";
 
 const {Content} = Layout;
 
@@ -122,6 +123,12 @@ class App extends Component {
                             </Route>
                             <Route path="/login"
                                    render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
+
+                            <Route path="/oauth2/redirect"
+                                   render={(props) => <OAuth2Redirect onLogin={this.handleLogin} {...props} />}
+                                   // component={<OAuth2Redirect />}
+                            />
+
                             <Route path="/signup" component={Signup}></Route>
                             <Route path="/signUpConfirm/:token?"
                                    render={(props) => <SignUpConfirm  {...props} />} ></Route>

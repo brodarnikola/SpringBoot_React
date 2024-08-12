@@ -3,6 +3,7 @@ package com.example.polls.config;
 import com.example.polls.security.CustomUserDetailsService;
 import com.example.polls.security.JwtAuthenticationEntryPoint;
 import com.example.polls.security.JwtAuthenticationFilter;
+import com.example.polls.security.TokenProvider;
 import com.example.polls.security.oauth2.CustomAuthenticationSuccessHandler;
 import com.example.polls.security.oauth2.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
@@ -80,8 +81,8 @@ public class SecurityConfig {
 //    }
 
 //    @Bean
-//    public JwtAuthenticationFilter jwtAuthenticationFilter() {
-//        return new JwtAuthenticationFilter(customUserDetailsService);
+//    public JwtAuthenticationFilter jwtAuthenticationFilter(TokenProvider tokenProvider) {
+//        return new JwtAuthenticationFilter(tokenProvider, customUserDetailsService);
 //    }
 
     @Bean
@@ -102,6 +103,7 @@ public class SecurityConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins("http://localhost:5000")
+                        .allowedOrigins(allowedOrigin)
                         .allowedOrigins("*")
 //                       .allowCredentials(true)
                         .allowedHeaders("Authorization", "Content-Type")
@@ -162,6 +164,7 @@ public class SecurityConfig {
                                         .requestMatchers("/").permitAll()
 
                                         .requestMatchers("/api/auth/**").permitAll()
+                                        .requestMatchers("/oauth2/**", "oauth2/**").permitAll()
                                         .requestMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability").permitAll()
 
 //                                       .requestMatchers(HttpMethod.OPTIONS, "/api/polls/**", "/api/users/**").permitAll()

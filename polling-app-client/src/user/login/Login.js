@@ -8,6 +8,7 @@ import {Form, Input, Button, notification} from 'antd';
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
 
 import GithubIcon from "mdi-react/GithubIcon";
+import {getSocialLoginUrl} from "../../util/Helpers";
 
 const Login = (props) => {
     return (
@@ -44,69 +45,67 @@ const LoginForm = (props) => {
         }
     };
 
-    const handleGithubLogin = () => {
-        window.location.href = 'http://localhost:5000/oauth2/authorization/github';
-    };
+    // const handleGithubLogin = () => {
+    //      window.location.href = 'http://localhost:5000/oauth2/authorization/github';
+    // };
 
     return (
-        <Form
-            form={form}
-            onFinish={handleSubmit}
-            className="login-form"
-        >
-            <Form.Item
-                name="usernameOrEmail"
-                rules={[{required: true, message: 'Please input your username or email!'}]}
-            >
-                <Input
-                    prefix={<UserOutlined/>}
-                    size="large"
-                    placeholder="Username or Email"
-                />
-            </Form.Item>
-            <Form.Item
-                name="password"
-                rules={[{required: true, message: 'Please input your Password!'}]}
-            >
-                <Input
-                    prefix={<LockOutlined/>}
-                    size="large"
-                    type="password"
-                    placeholder="Password"
-                />
-            </Form.Item>
-            <Form.Item>
-                <Button type="primary" htmlType="submit" size="large" className="login-form-button">
-                    Login
-                </Button>
-                <br/>
-                <br/>
-                <>
-                    {
-                        // Link to request GitHub access
-                    }
-                    <a
-                        // className="login-link"
-                        // href={`https://github.com/login/oauth/authorize?scope=user&client_id=${client_id}&redirect_uri=${redirect_uri}`}
-                        // onClick={() => {
-                        //     // setData({...data, errorMessage: ""});
-                        // }}
-                        onClick={
-                            handleGithubLogin
-                        }
-                    >
-                        <GithubIcon/>
-                        <span>Login with GitHub</span>
 
-                    </a>
-                </>
-                <br/>
-                <br/>
-                Or <Link to="/signup">register now!</Link> <br/>
-                Forgot your password? <Link to="/forgotPassword">Click here to recover it.</Link>
-            </Form.Item>
-        </Form>
-    );
+        <>
+            <Form
+                form={form}
+                onFinish={handleSubmit}
+                className="login-form"
+            >
+                <Form.Item
+                    name="usernameOrEmail"
+                    rules={[{required: true, message: 'Please input your username or email!'}]}
+                >
+                    <Input
+                        prefix={<UserOutlined/>}
+                        size="large"
+                        placeholder="Username or Email"
+                    />
+                </Form.Item>
+                <Form.Item
+                    name="password"
+                    rules={[{required: true, message: 'Please input your Password!'}]}
+                >
+                    <Input
+                        prefix={<LockOutlined/>}
+                        size="large"
+                        type="password"
+                        placeholder="Password"
+                    />
+                </Form.Item>
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" size="large" className="login-form-button">
+                        Login
+                    </Button>
+                    <br/>
+                    <br/>
+                    Or <Link to="/signup">register now!</Link> <br/>
+                    Forgot your password? <Link to="/forgotPassword">Click here to recover it.</Link>
+                </Form.Item>
+            </Form>
+            <br/>
+            <br/>
+            <a
+                // className="login-link"
+                // href={`https://github.com/login/oauth/authorize?scope=user&client_id=${client_id}&redirect_uri=${redirect_uri}`}
+                // onClick={() => {
+                //     // setData({...data, errorMessage: ""});
+                // }}
+                href={
+                    getSocialLoginUrl('github')
+                }
+            >
+                <GithubIcon/>
+                <span>Login with GitHub</span>
+            </a>
+        </>
+    )
+        ;
 }
 
 export default Login;

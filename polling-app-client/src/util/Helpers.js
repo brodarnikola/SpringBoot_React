@@ -1,3 +1,17 @@
+import {config} from "../constants";
+
+export function parseJwt(token) {
+    if (!token) { return }
+    const base64Url = token.split('.')[1]
+    const base64 = base64Url.replace('-', '+').replace('_', '/')
+    return JSON.parse(window.atob(base64))
+}
+
+export function getSocialLoginUrl(name) {
+    console.log("authorization link is: ")
+    console.log(`${config.url.API_BASE_URL}/oauth2/authorization/${name}?redirect_uri=${config.url.OAUTH2_REDIRECT_URI}`);
+    return `${config.url.API_BASE_URL}/oauth2/authorization/${name}?redirect_uri=${config.url.OAUTH2_REDIRECT_URI}`
+}
 
 export function formatDate(dateString) {
     const date = new Date(dateString);
