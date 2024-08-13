@@ -16,7 +16,7 @@
 *.iml
 *.ipr
 
-# /src/main/resources/.env
+/src/main/resources/.env
 
 ### NetBeans ###
 /nbproject/private/
