@@ -23,8 +23,8 @@ public class CurrencyScheduler {
         this.hnbClient = hnbClient;
     }
 
-//    @Scheduled(cron = "0 0 12 * * 1-5") // start this scheduler every week day at 12
-    @Scheduled(cron = "*/5 * * * * *") // execute every 5 seconds cron job
+    @Scheduled(cron = "0 0 12 * * 1-5") // start this scheduler every week day at 12
+//    @Scheduled(cron = "*/5 * * * * *") // execute every 5 seconds cron job
     public void startScheduler() {
         LOG.info("Starting currency-scheduler");
         this.getCurrencies();

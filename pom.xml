@@ -156,6 +156,12 @@
 			<version>3.0.2</version> <!-- Ensure this version or higher is used -->
 		</dependency>
 
+		<dependency>
+			<groupId>com.github.javafaker</groupId>
+			<artifactId>javafaker</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+
 
 	</dependencies>
 

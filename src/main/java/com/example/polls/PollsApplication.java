@@ -1,5 +1,9 @@
 package com.example.polls;
 
+import com.example.polls.task.InitialAccountImport;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -16,7 +20,10 @@ import java.util.TimeZone;
 		Jsr310JpaConverters.class
 })
 @EnableScheduling
-public class PollsApplication {
+public class PollsApplication implements ApplicationRunner {
+
+	@Autowired
+	InitialAccountImport initialAccountImport;
 
 	@PostConstruct
 	void init() {
@@ -25,5 +32,11 @@ public class PollsApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PollsApplication.class, args);
+	}
+
+	@Override
+	public void run(ApplicationArguments args) throws Exception {
+
+		initialAccountImport.run();
 	}
 }
