@@ -18,6 +18,8 @@
 
 /src/main/resources/.env
 
+/polling-app-client/node_modules
+
 ### NetBeans ###
 /nbproject/private/
 /build/
