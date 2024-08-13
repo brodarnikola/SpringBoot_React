@@ -35,6 +35,8 @@ class App extends Component {
             currentUser: null,
             isAuthenticated: false,
             isLoading: false,
+            isSocialLogin: false,
+            numberOfDisplayedLoginNotification: 0,
             id: "",
             showUserAdminMenu: false
         }
@@ -49,7 +51,7 @@ class App extends Component {
         });
     }
 
-    loadCurrentUser() {
+    loadCurrentUser( ) {
         this.setState({
             isLoading: true
         });
@@ -62,7 +64,10 @@ class App extends Component {
                     showUserAdminMenu: true
                 });
                 console.log("ispis podatki od usera:" + " 1) username: " + this.state.currentUser.username
-                    + "   2) authorities: " + this.state.currentUser.roles + " kompletni ispis: " + this.state.currentUser);
+                        + "   2) authorities: " + this.state.currentUser.roles + " kompletni ispis: " + this.state.currentUser);
+
+                this.props.history.push('/');
+
             }).catch(error => {
             this.setState({
                 isLoading: false,
@@ -85,20 +90,34 @@ class App extends Component {
         });
 
         this.props.history.push(redirectTo);
-
-        notification[notificationType]({
-            message: 'Polling App',
-            description: description,
-        });
     }
 
-    handleLogin() {
-        notification.success({
-            message: 'Polling App',
-            description: "You're successfully logged in.",
-        });
+    handleLogin(isSocialLogin = false) {
+
+        this.setState({
+            isSocialLogin: isSocialLogin
+        })
+
+        if(this.state.numberOfDisplayedLoginNotification === 0 && !isSocialLogin) {
+            notification.success({
+                message: 'Polling App',
+                description: "You're successfully logged in.",
+            });
+            this.setState({
+                numberOfDisplayedLoginNotification: 1
+            })
+        }
+        else if (this.state.isSocialLogin) {
+            notification.success({
+                message: 'Polling App',
+                description: "You're successfully logged in.",
+            });
+            this.setState({
+                isSocialLogin: false
+            })
+        }
+
         this.loadCurrentUser();
-        this.props.history.push("/");
     }
 
     render() {
@@ -122,10 +141,12 @@ class App extends Component {
                                                                 handleLogout={this.handleLogout} {...props} />}>
                             </Route>
                             <Route path="/login"
-                                   render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
+                                   render={(props) => <Login onLogin={(isSocialLogin) => this.handleLogin(false)} {...props} />}></Route>
 
                             <Route path="/oauth2/redirect"
-                                   render={(props) => <OAuth2Redirect onLogin={this.handleLogin} {...props} />}
+                                   render={(props) => <OAuth2Redirect onLogin={(isSocialLogin) =>
+                                       this.handleLogin(true)
+                                   } {...props} />}
                                    // component={<OAuth2Redirect />}
                             />
 

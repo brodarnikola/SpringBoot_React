@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {Link, useLocation} from 'react-router-dom'
-// import AuthContext from '../context/AuthContext'
 import { parseJwt } from '../../util/Helpers'
 import {ACCESS_TOKEN} from "../../constants";
 
@@ -34,11 +33,12 @@ function OAuth2Redirect(props) {
     console.log("handle login .. data is:" + data
         + "user is: " + user + " accessToken is: " + accessToken);
 
-    props.onLogin();
+    props.onLogin(true);
     // userLogin(user)
   };
 
-  return <Link to={redirectTo} />
+  // return <Link to={redirectTo} />
+  return <></>;
 }
 
 export default OAuth2Redirect

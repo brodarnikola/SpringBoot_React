@@ -5,10 +5,13 @@ import {Link} from 'react-router-dom';
 import {ACCESS_TOKEN} from '../../constants';
 
 import {Form, Input, Button, notification} from 'antd';
-import {LockOutlined, UserOutlined} from '@ant-design/icons';
+import {GoogleCircleFilled, LockOutlined, UserOutlined} from '@ant-design/icons';
 
 import GithubIcon from "mdi-react/GithubIcon";
 import {getSocialLoginUrl} from "../../util/Helpers";
+import GoogleIcon from "mdi-react/GoogleIcon";
+import GooglePlayIcon from "mdi-react/GooglePlayIcon";
+import GoogleChromeIcon from "mdi-react/GoogleChromeIcon";
 
 const Login = (props) => {
     return (
@@ -29,7 +32,7 @@ const LoginForm = (props) => {
             const loginRequest = {...values};
             const response = await login(loginRequest);
             localStorage.setItem(ACCESS_TOKEN, response.accessToken);
-            props.onLogin();
+            props.onLogin(false);
         } catch (error) {
             if (error.status === 401) {
                 notification.error({
@@ -89,31 +92,17 @@ const LoginForm = (props) => {
                 </Form.Item>
             </Form>
             <a
-                // className="login-link"
-                // href={`https://github.com/login/oauth/authorize?scope=user&client_id=${client_id}&redirect_uri=${redirect_uri}`}
-                // onClick={() => {
-                //     // setData({...data, errorMessage: ""});
-                // }}
-                href={
-                    getSocialLoginUrl('github')
-                }
-            >
-                <GithubIcon/>
+                style={{ display: 'flex', alignItems: 'center', color: 'inherit' }}
+                href={getSocialLoginUrl('github')} >
+                <GithubIcon style={{ marginRight: '8px' }}/>
                 <span>Login with GitHub</span>
             </a>
             <br/>
             <br/>
             <a
-                // className="login-link"
-                // href={`https://github.com/login/oauth/authorize?scope=user&client_id=${client_id}&redirect_uri=${redirect_uri}`}
-                // onClick={() => {
-                //     // setData({...data, errorMessage: ""});
-                // }}
-                href={
-                    getSocialLoginUrl('google')
-                }
-            >
-                <GithubIcon/>
+                style={{ display: 'flex', alignItems: 'center', color: 'inherit' }}
+                href={ getSocialLoginUrl('google') } >
+                <GoogleIcon style={{ marginRight: '8px' }}/>
                 <span>Login with Google</span>
             </a>
         </>
