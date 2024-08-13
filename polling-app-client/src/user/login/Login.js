@@ -88,8 +88,6 @@ const LoginForm = (props) => {
                     Forgot your password? <Link to="/forgotPassword">Click here to recover it.</Link>
                 </Form.Item>
             </Form>
-            <br/>
-            <br/>
             <a
                 // className="login-link"
                 // href={`https://github.com/login/oauth/authorize?scope=user&client_id=${client_id}&redirect_uri=${redirect_uri}`}
@@ -102,6 +100,21 @@ const LoginForm = (props) => {
             >
                 <GithubIcon/>
                 <span>Login with GitHub</span>
+            </a>
+            <br/>
+            <br/>
+            <a
+                // className="login-link"
+                // href={`https://github.com/login/oauth/authorize?scope=user&client_id=${client_id}&redirect_uri=${redirect_uri}`}
+                // onClick={() => {
+                //     // setData({...data, errorMessage: ""});
+                // }}
+                href={
+                    getSocialLoginUrl('google')
+                }
+            >
+                <GithubIcon/>
+                <span>Login with Google</span>
             </a>
         </>
     )

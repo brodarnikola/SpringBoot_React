@@ -103,9 +103,9 @@ public class SecurityConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5000")
+//                        .allowedOrigins("http://localhost:5000")
                         .allowedOrigins(allowedOrigin)
-                        .allowedOrigins("*")
+//                        .allowedOrigins("*")
 //                       .allowCredentials(true)
                         .allowedHeaders("Authorization", "Content-Type")
                         .allowedMethods("HEAD",  "GET", "POST", "PUT", "PATCH", "DELETE")
@@ -124,8 +124,8 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(List.of(allowedOrigin)); // Replace with your frontend URL
         configuration.setAllowedMethods(List.of("HEAD", "GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-        configuration.addAllowedMethod("*");
-        configuration.addAllowedHeader("*");
+//        configuration.addAllowedMethod("*");
+//        configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true);
         configuration.setMaxAge(MAX_AGE_SECS);
 
@@ -167,8 +167,7 @@ public class SecurityConfig {
 
                                         .requestMatchers("/api/auth/**").permitAll()
 
-                                        .requestMatchers("/login/oauth2/**").permitAll()
-                                        .requestMatchers("oauth2/**", "/oauth2/**").permitAll()
+                                        .requestMatchers("/oauth2/**").permitAll()
 
                                         .requestMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability").permitAll()
 
@@ -193,18 +192,9 @@ public class SecurityConfig {
                         .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(customOauth2UserService))
                         .successHandler(customAuthenticationSuccessHandler))
 
-//                .oauth2Login(withDefaults())
 
                 .logout(l -> l.logoutSuccessUrl("/").permitAll())
-//                .oauth2Login(oauth2 -> oauth2
-//                        .successHandler(oAuth2SuccessHandler())  // Redirect after successful login
-//                )
         ;
-
-//                .oauth2Login(withDefaults())
-
-//                .defaultSuccessUrl("http://localhost:3000", true)
-//                .formLogin(withDefaults())
 
         ;
 
@@ -213,11 +203,6 @@ public class SecurityConfig {
 
         return http.build();
     }
-
-//    @Bean
-//    public SimpleUrlAuthenticationSuccessHandler oAuth2SuccessHandler() {
-//        return new SimpleUrlAuthenticationSuccessHandler("http://localhost:3000/login");
-//    }
 
 
 }

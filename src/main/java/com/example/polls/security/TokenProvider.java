@@ -7,13 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Component;
 
 import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -32,7 +31,23 @@ public class TokenProvider {
     public static final String TOKEN_AUDIENCE = "order-app";
 
     public String generate(Authentication authentication) {
-        UserPrincipal user = (UserPrincipal) authentication.getPrincipal();
+        Object principal = authentication.getPrincipal();
+        UserPrincipal user;
+
+        if (principal instanceof UserPrincipal) {
+            user = (UserPrincipal) principal;
+        } else if (principal instanceof DefaultOidcUser) {
+            DefaultOidcUser oidcUser = (DefaultOidcUser) principal;
+            user = new UserPrincipal();
+            user.setUsername(oidcUser.getEmail());
+            user.setName(oidcUser.getName());
+            user.setEmail(oidcUser.getEmail());
+            // Add other properties if needed
+            user.setAuthorities(Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"))); // Adjust roles if needed
+        } else {
+            throw new IllegalArgumentException("Unsupported principal type: " + principal.getClass().getName());
+        }
+//        UserPrincipal user = (UserPrincipal) authentication.getPrincipal();
 
         List<String> roles = user.getAuthorities()
                 .stream()

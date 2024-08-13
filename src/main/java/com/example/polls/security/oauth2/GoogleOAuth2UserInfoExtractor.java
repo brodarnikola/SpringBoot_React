@@ -15,7 +15,9 @@ public class GoogleOAuth2UserInfoExtractor implements OAuth2UserInfoExtractor {
     @Override
     public UserPrincipal extractUserInfo(OAuth2User oAuth2User) {
         UserPrincipal customUserDetails = new UserPrincipal();
-        customUserDetails.setUsername(retrieveAttr("email", oAuth2User));
+        customUserDetails.setUsername(retrieveAttr("" +
+                "" +
+                "", oAuth2User));
         customUserDetails.setName(retrieveAttr("name", oAuth2User));
         customUserDetails.setEmail(retrieveAttr("email", oAuth2User));
 //        customUserDetails.setAvatarUrl(retrieveAttr("picture", oAuth2User));
