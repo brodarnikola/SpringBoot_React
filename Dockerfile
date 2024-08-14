@@ -19,10 +19,38 @@
 ## Run the application
 #CMD ["java", "-jar", "/app/application.jar"]
 
-#FROM openjdk:17-jdk-alpine
-FROM openjdk:17-jdk-slim
-ARG JAR_FILE=target/*.jar
-COPY ./target/polls-0.0.1-SNAPSHOT.jar app.jar
-EXPOSE 5000
-ENTRYPOINT ["java", "-jar", "/app.jar"]
 
+##FROM openjdk:17-jdk-alpine
+#FROM openjdk:17-jdk-slim
+#ARG JAR_FILE=target/*.jar
+#COPY ./target/polls-0.0.1-SNAPSHOT.jar app.jar
+#EXPOSE 5000
+#ENTRYPOINT ["java", "-jar", "/app.jar"]
+
+#FROM ubuntu:latest AS build
+#
+#RUN apt-get update
+#RUN apt-get install openjdk-17-jdk -y
+#COPY . .
+#
+## RUN  ./gradlew bootJar --no-daemon
+#RUN  ./mvnw bootJar --no-daemon
+#
+#FROM openjdk:17-jdk-slim
+#
+#EXPOSE 5000
+#
+##COPY --from=build /build/libs/demo-1.jar app.jar
+#COPY --from=build /target/polls-0.0.1-SNAPSHOT.jar app.jar
+#
+#ENTRYPOINT ["java", "-jar", "app.jar"]
+
+FROM eclipse-temurin:17
+
+LABEL mentainer="brodarnikola9@gmail.com"
+
+WORKDIR /app
+
+COPY target/polls-0.0.1-SNAPSHOT.jar /app/springboot-docker-demo.jar
+
+ENTRYPOINT ["java", "-jar", "springboot-docker-demo.jar"]
