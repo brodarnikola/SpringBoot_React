@@ -72,6 +72,13 @@ export function signUpConfirm(token) {
     });
 }
 
+export function chatBotAIRequest(messageRequest) {
+    return request({
+        url: API_BASE_URL + "/ai/chat",
+        method: 'POST',
+        body: JSON.stringify( messageRequest)
+    });
+}
 
 export function forgotPassword(forgotPasswordRequest) {
     return request({

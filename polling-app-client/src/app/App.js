@@ -25,6 +25,7 @@ import {Layout, notification} from 'antd';
 import ProfileEdit from "../poll/ProfileEdit";
 import ChangePassword from "../user/changePassword/ChangePassword";
 import OAuth2Redirect from "../user/login/OAuth2Redirect";
+import Chat from "../ai/ChatBotAI";
 
 const {Content} = Layout;
 
@@ -161,6 +162,7 @@ class App extends Component {
                                    render={(props) => <Profile isAuthenticated={this.state.isAuthenticated}
                                                                currentUser={this.state.currentUser} {...props}  />}>
                             </Route>
+                            <Route path="/chatBotAI" component={Chat}></Route>
                             <PrivateRoute authenticated={this.state.isAuthenticated}
                                           path="/poll/new" component={NewPoll}
                                           handleLogout={this.handleLogout}></PrivateRoute>

@@ -92,6 +92,9 @@ function ProfileDropdownMenu(props) {
       <Menu.Item key="editProfile" className="dropdown-item">
             <Link to={`/profileEdit/${props.currentUser.username}`}>Edit Profile</Link>
       </Menu.Item>
+        <Menu.Item key="chatBotAI" className="dropdown-item">
+            <Link to={`/chatBotAI`}>ChatBotAI</Link>
+        </Menu.Item>
       <Menu.Item key="logout" className="dropdown-item">
         Logout
       </Menu.Item>
