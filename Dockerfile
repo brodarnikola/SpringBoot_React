@@ -1,3 +1,5 @@
+# 1) First attempt
+
 #FROM ubuntu:latest
 #LABEL authors="Dell"
 #
@@ -20,6 +22,7 @@
 #CMD ["java", "-jar", "/app/application.jar"]
 
 
+# 2) Second attempt
 ##FROM openjdk:17-jdk-alpine
 #FROM openjdk:17-jdk-slim
 #ARG JAR_FILE=target/*.jar
@@ -27,6 +30,7 @@
 #EXPOSE 5000
 #ENTRYPOINT ["java", "-jar", "/app.jar"]
 
+# 3) Third attempt
 #FROM ubuntu:latest AS build
 #
 #RUN apt-get update
@@ -36,6 +40,8 @@
 ## RUN  ./gradlew bootJar --no-daemon
 #RUN  ./mvnw bootJar --no-daemon
 #
+
+# 4) Fourth attempt
 #FROM openjdk:17-jdk-slim
 #
 #EXPOSE 5000
@@ -45,12 +51,14 @@
 #
 #ENTRYPOINT ["java", "-jar", "app.jar"]
 
-FROM eclipse-temurin:17
 
-LABEL mentainer="brodarnikola9@gmail.com"
-
-WORKDIR /app
-
-COPY target/polls-0.0.1-SNAPSHOT.jar /app/springboot-docker-demo.jar
-
-ENTRYPOINT ["java", "-jar", "springboot-docker-demo.jar"]
+# 5) Fifth attempt
+#FROM eclipse-temurin:17
+#
+#LABEL mentainer="brodarnikola9@gmail.com"
+#
+#WORKDIR /app
+#
+#COPY target/polls-0.0.1-SNAPSHOT.jar /app/springboot-docker-demo.jar
+#
+#ENTRYPOINT ["java", "-jar", "springboot-docker-demo.jar"]
