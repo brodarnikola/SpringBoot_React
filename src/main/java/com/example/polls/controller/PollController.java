@@ -24,7 +24,6 @@ import java.net.URI;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-import org.springframework.http.MediaType;
 
 /**
  * Created by rajeevkumarsingh on 20/11/17.
@@ -86,8 +85,7 @@ public class PollController {
         return pollService.castVoteAndGetUpdatedPoll(pollId, voteRequest, currentUser);
     }
 
-    @GetMapping(value = "/longTask",
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/longTask" )
     public LongTaskResponse exampleOfAsyncLongTask()  {
         try {
             CompletableFuture<String> longTaskFuture = asyncLongTask.runTasksInParallel();
@@ -100,7 +98,9 @@ public class PollController {
         }
         catch (Exception e) {
             logger.debug("error message is: {}", e.getMessage());
-            return new LongTaskResponse();
+            LongTaskResponse longTaskErrorResponse = new LongTaskResponse();
+            longTaskErrorResponse.setLongTaskResponse(e.getMessage());
+            return longTaskErrorResponse;
         }
     }
 

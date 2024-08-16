@@ -97,25 +97,25 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-//                        .allowedOrigins("http://localhost:5000")
-                        .allowedOrigins(allowedOrigin)
-//                        .allowedOrigins("*")
-//                       .allowCredentials(true)
-                        .allowedHeaders("Authorization", "Content-Type")
-                        .allowedMethods("HEAD",  "GET", "POST", "PUT", "PATCH", "DELETE")
-                        .maxAge(MAX_AGE_SECS);
+//    @Bean
+//    public WebMvcConfigurer corsConfigurer() {
+//        return new WebMvcConfigurer() {
+//            @Override
+//            public void addCorsMappings(CorsRegistry registry) {
 //                registry.addMapping("/**")
-//                        .allowedOrigins("http://allowed-origin.com")
-//                        .allowedMethods("GET", "POST", "PUT", "DELETE")
-            }
-        };
-    }
+////                        .allowedOrigins("http://localhost:5000")
+//                        .allowedOrigins(allowedOrigin)
+////                        .allowedOrigins("*")
+////                       .allowCredentials(true)
+//                        .allowedHeaders("Authorization", "Content-Type")
+//                        .allowedMethods("HEAD",  "GET", "POST", "PUT", "PATCH", "DELETE")
+//                        .maxAge(MAX_AGE_SECS);
+////                registry.addMapping("/**")
+////                        .allowedOrigins("http://allowed-origin.com")
+////                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+//            }
+//        };
+//    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

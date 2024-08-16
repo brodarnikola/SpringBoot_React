@@ -1,6 +1,9 @@
 package com.example.polls.task;
 
 
+import com.example.polls.bank.implementation.CustomerServiceImpl;
+import com.example.polls.bank.interfaces.AccountService;
+import com.example.polls.bank.interfaces.TransactionService;
 import com.example.polls.bank.model.Account;
 import com.example.polls.bank.model.Customer;
 import com.example.polls.bank.model.Transaction;
@@ -8,6 +11,7 @@ import com.example.polls.bank.model.Currency;
 import com.github.javafaker.Faker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -25,9 +29,16 @@ public class InitialAccountImport implements Runnable {
 
     private static final int THREAD_POOL_SIZE = 10;
     private static final int NUMBER_OF_CUSTOMERS = 2;
-    private static final String FILE_PATH = "src/main/resources/transactions";
+    private static final String FILE_PATH = "src/main/resources/small_transactions_file";
 
     private static final Logger log = LoggerFactory.getLogger(InitialAccountImport.class);
+
+    @Autowired
+    TransactionService transactionService;
+    @Autowired
+    AccountService accountService;
+    @Autowired
+    CustomerServiceImpl customerService;
 
     @Override
     public void run() {
@@ -36,69 +47,46 @@ public class InitialAccountImport implements Runnable {
 
     public void initialDataImport() {
 
-        List<Transaction> transactions = importAllTransactions(FILE_PATH);
-        List<Customer> customers = createDummyCustomers(NUMBER_OF_CUSTOMERS);
-        Set<Account> accounts = getUniqueAccounts(transactions);
+        List<Customer> initialCustomers = customerService.findAllCustomers();
+        if(initialCustomers.size() < NUMBER_OF_CUSTOMERS) {
 
-        setCustomerAccounts(customers,accounts);
+            List<Transaction> transactions = importAllTransactions(FILE_PATH);
+            List<Customer> customers = customerService.createDummyCustomers(NUMBER_OF_CUSTOMERS);
+            Set<Account> accounts = getUniqueAccounts(transactions);
 
-        ExecutorService executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
-        CountDownLatch latch = new CountDownLatch(transactions.size());
+            setCustomerAccounts(customers,accounts);
 
-        log.info("Size of accounts is: " + accounts.size());
-        log.info("Account list is: " + accounts);
-        log.info("Size of transaction is: " + transactions.size());
+            ExecutorService executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+            CountDownLatch latch = new CountDownLatch(transactions.size());
 
-        transactions.forEach(t -> executor.submit(() -> {
+            log.info("Size of accounts is: " + accounts.size());
+            log.info("Account list is: " + accounts);
+            log.info("Size of transaction is: " + transactions.size());
+
+            transactions.forEach(t -> executor.submit(() -> {
+                try {
+                    processTransaction(t, accounts);
+                } finally {
+                    latch.countDown();
+                }
+            }));
+
             try {
-                processTransaction(t, accounts);
-            } finally {
-                latch.countDown();
+                latch.await();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                e.printStackTrace();
             }
-        }));
+            executor.shutdown();
 
-        try {
-            latch.await();
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            e.printStackTrace();
+            accountService.saveAll(accounts);
+
+
+            log.info("Size of transaction is: " + transactions.size());
+
+            log.info("Finish with import");
         }
-        executor.shutdown();
 
-
-        log.info("Size of transaction is: " + transactions.size());
-
-        log.info("Finish with import");
-    }
-
-    public List<Customer> createDummyCustomers(Integer numberOfCustomers) {
-
-        try {
-            Faker faker = new Faker();
-            List<Customer> customers = new ArrayList<>();
-
-            String email1 = "brodarnikola9@gmail.com";
-            String email2 = "brodarnikola@gmail.com";
-
-            for (int i = 0; i < numberOfCustomers; i++) {
-                Customer customer = new Customer();
-                customer.setName(faker.name().fullName());
-                customer.setAddress(faker.address().fullAddress());
-                if(i % 2 == 0) {
-                    customer.setEmail(email1);
-                }
-                else {
-                    customer.setEmail(email2);
-                }
-                customers.add(customer);
-            }
-
-            return customers;
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
     }
 
 
@@ -116,6 +104,8 @@ public class InitialAccountImport implements Runnable {
 
             sender.get().updateBalance(t.getAmount().negate());
             receiver.get().updateBalance(t.getAmount());
+
+            transactionService.saveTransaction(t);
         }
     }
 

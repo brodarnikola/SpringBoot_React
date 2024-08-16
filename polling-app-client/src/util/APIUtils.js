@@ -117,6 +117,13 @@ export function longTask() {
     });
 }
 
+export function getAccounts() {
+    return request({
+        url: API_BASE_URL + "/accounts",
+        method: 'GET'
+    });
+}
+
 export function updateProfile(updateProfileRequest) {
     return request({
         url: API_BASE_URL + "/user/updateProfile",

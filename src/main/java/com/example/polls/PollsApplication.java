@@ -39,6 +39,6 @@ public class PollsApplication implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 
-//		initialAccountImport.run();
+		initialAccountImport.run();
 	}
 }
