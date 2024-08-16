@@ -59,7 +59,7 @@ public class RegistrationListener  {
 
         final String recipientAddress = user.getEmail();
         final String subject = "Registration Confirmation";
-        final String confirmationUrl = "http://localhost:3000/signUpConfirm?token=" + token;
+        final String confirmationUrl = "http://reactjs-polls-app-website.s3-website.eu-central-1.amazonaws.com/signUpConfirm?token=" + token;
         final SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(recipientAddress);
         email.setSubject(subject);

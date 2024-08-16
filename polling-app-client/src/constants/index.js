@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'http://springbootpollsapp-env.eba-v2n5cyzm.eu-central-1.elasticbeanstalk.com/api' // 'http://springbootpollsappsmysql-env.eba-mt4mvv5v.eu-central-1.elasticbeanstalk.com/api' // 'http://localhost:5000/api';
+export const API_BASE_URL = 'http://mysqlspringbootpollsapp-env.eba-hfyfqmwg.eu-central-1.elasticbeanstalk.com/api' // 'http://localhost:5000/api';
 //export const API_BASE_URL = '/api';
 export const ACCESS_TOKEN = 'accessToken';
 

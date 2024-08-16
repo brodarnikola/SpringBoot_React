@@ -174,9 +174,9 @@ public class SecurityConfig {
 //                                       .requestMatchers(HttpMethod.OPTIONS, "/api/polls/**", "/api/users/**").permitAll()
                                         .requestMatchers(HttpMethod.GET, "/api/polls/**", "/api/users/**").permitAll()
 
-//                                        .requestMatchers("/forgotPassword*").permitAll()
+                                        .requestMatchers("/forgotPassword*").permitAll()
 
-//                                        .requestMatchers("/changePassword*", "/user/savePassword*").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
+                                       .requestMatchers("/changePassword*", "/user/savePassword*").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
 
                                         .anyRequest().authenticated()
                 )

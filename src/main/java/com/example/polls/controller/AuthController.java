@@ -106,7 +106,7 @@ public class AuthController {
     } */
 
     private String getAppUrl() {
-        return "http://localhost:3000";
+        return "http://reactjs-polls-app-website.s3-website.eu-central-1.amazonaws.com"; // "http://localhost:3000";
     }
 
     public void createPasswordResetTokenForUser(User user, String token) {
