@@ -20,8 +20,8 @@ public class ScheduledTask {
     // day of month
     // month
     // day of week
-//    @Scheduled(cron = "0 0 */2 * * *")
-    @Scheduled(cron = "*/10 * * * * *") // execute every 5 seconds cron job
+    @Scheduled(cron = "0 0 12 * * 1-5") // start this scheduler every week day at 12
+//    @Scheduled(cron = "*/10 * * * * *") // execute every 5 seconds cron job
     public void task1() {
         accountService.getAllOriginalAccounts().forEach(account -> accountService.getLastMonthTurnOver(account, transactionService));
     }
