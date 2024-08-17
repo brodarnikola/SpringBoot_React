@@ -124,6 +124,13 @@ export function getAccounts() {
     });
 }
 
+export function getPreviousMonthTurnover() {
+    return request({
+        url: API_BASE_URL + "/calculatePreviousMonthTurnover",
+        method: 'GET'
+    });
+}
+
 export function updateProfile(updateProfileRequest) {
     return request({
         url: API_BASE_URL + "/user/updateProfile",
