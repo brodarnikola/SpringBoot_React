@@ -89,6 +89,9 @@ function ProfileDropdownMenu(props) {
       <Menu.Item key="profile" className="dropdown-item">
         <Link to={`/users/${props.currentUser.username}`}>Polls</Link>
       </Menu.Item>
+      <Menu.Item key="longTask" className="dropdown-item">
+            <Link to={`/longTask`}>LongTask</Link>
+      </Menu.Item>
       <Menu.Item key="editProfile" className="dropdown-item">
             <Link to={`/profileEdit/${props.currentUser.username}`}>Edit Profile</Link>
       </Menu.Item>

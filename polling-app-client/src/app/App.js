@@ -25,6 +25,7 @@ import {Layout, notification} from 'antd';
 import ProfileEdit from "../poll/ProfileEdit";
 import ChangePassword from "../user/changePassword/ChangePassword";
 import OAuth2Redirect from "../user/login/OAuth2Redirect";
+import LongTask from "../poll/LongTask";
 
 const {Content} = Layout;
 
@@ -170,6 +171,7 @@ class App extends Component {
                                                     currentUser={this.state.currentUser}
                                                     {...props}  />}>
                             </Route>
+                            <Route path="/longTask" component={LongTask}></Route>
                             <Route component={NotFound}></Route>
                         </Switch>
                     </div>

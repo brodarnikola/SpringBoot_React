@@ -110,6 +110,27 @@ export function checkEmailAvailability(email) {
     });
 }
 
+export function longTask() {
+    return request({
+        url: API_BASE_URL + "/polls/longTask",
+        method: 'GET'
+    });
+}
+
+export function getAccounts() {
+    return request({
+        url: API_BASE_URL + "/accounts",
+        method: 'GET'
+    });
+}
+
+export function getPreviousMonthTurnover() {
+    return request({
+        url: API_BASE_URL + "/calculatePreviousMonthTurnover",
+        method: 'GET'
+    });
+}
+
 export function updateProfile(updateProfileRequest) {
     return request({
         url: API_BASE_URL + "/user/updateProfile",

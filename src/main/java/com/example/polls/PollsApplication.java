@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import jakarta.annotation.PostConstruct;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.TimeZone;
@@ -20,6 +21,7 @@ import java.util.TimeZone;
 		Jsr310JpaConverters.class
 })
 @EnableScheduling
+@EnableAsync
 public class PollsApplication implements ApplicationRunner {
 
 	@Autowired
@@ -37,6 +39,6 @@ public class PollsApplication implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 
-//		initialAccountImport.run();
+		initialAccountImport.run();
 	}
 }
