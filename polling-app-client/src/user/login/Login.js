@@ -91,18 +91,24 @@ const LoginForm = (props) => {
                     Forgot your password? <Link to="/forgotPassword">Click here to recover it.</Link>
                 </Form.Item>
             </Form>
+            <br/>
+            <br/>
+            <p>This social login is currently not working. Trying to figure out what is the problem. Currently only work
+                on localhost</p>
+            <br/>
+            <br/>
             <a
-                style={{ display: 'flex', alignItems: 'center', color: 'inherit' }}
-                href={getSocialLoginUrl('github')} >
-                <GithubIcon style={{ marginRight: '8px' }}/>
+                style={{display: 'flex', alignItems: 'center', color: 'inherit'}}
+                href={getSocialLoginUrl('github')}>
+                <GithubIcon style={{marginRight: '8px'}}/>
                 <span>Login with GitHub</span>
             </a>
             <br/>
             <br/>
             <a
-                style={{ display: 'flex', alignItems: 'center', color: 'inherit' }}
-                href={ getSocialLoginUrl('google') } >
-                <GoogleIcon style={{ marginRight: '8px' }}/>
+                style={{display: 'flex', alignItems: 'center', color: 'inherit'}}
+                href={getSocialLoginUrl('google')}>
+                <GoogleIcon style={{marginRight: '8px'}}/>
                 <span>Login with Google</span>
             </a>
         </>
