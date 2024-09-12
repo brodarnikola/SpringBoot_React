@@ -17,6 +17,7 @@
 *.ipr
 
 /src/main/resources/.env
+/src/main/resources/application.properties
 
 /polling-app-client/node_modules
 
