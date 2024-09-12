@@ -1,0 +1,51 @@
+So that frontend, backend, database will work, I used aws services.. 
+
+For frontend I used AWS S3 bucket, for backend I used AWS Elastic BeanStalk, for database I used RDS .. 
+
+FRONTEND
+
+So for frontend I need to create new bucket, then enable Static website hosting, then click on edit for Static website hosting ( there I needed to set "index.html" for "Index Document" and also for "Error document"
+
+After that I need to go to "permission" tab ,, needed to "Enable public access (In other words, uncheck "Block all public access")"
+After that on the same tab "permission", I needed to change "Bucket policy", something like that
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Statement1",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::reactjs-polls-app-website/*"
+        }
+    ]
+}
+
+After that you can build reactjs project with "npm run build", and then to upload "build" folder you can use drag and drop ,, or launch this command from AWS CLI "  aws s3 sync build/ s3://reactjs-polls-app-website " .. Of course also install AWS CLI if you want to use it
+
+This is also a good website to deploy your "ReactJs" project " https://www.newline.co/fullstack-react/articles/deploying-a-react-app-to-s3/ " 
+
+BACKEND
+
+To deploy backend I needed to create new enviroment.. Application name set what you want , for platform if you develop Java, choose Java, click upload you code, find you local file, ( create local file with mvn clean install ) ..  for service access, create your own user and role and then select this role inside "existing service roles", "EC2 instance profile" , 
+
+how to create this new user and role ? 
+
+Inside AWS "IAM" service, you need to create new user, new role .. 
+
+For user click add, create new user 
+Choose attach policies directly
+Add this permission
+AdministratorAccess
+AWSElasticBeanstalkMulticontainerDocker
+AWSElasticBeanstalkWebTier
+AWSElasticBeanstalkWorkerTier
+
+For roles , click add, create new role
+
+Choose AWS Services, Chose EC2 ,, add the same permission as for user, add role name .. 
+
+Then inside trust relationship, click "Edit trust policy",, 
+Click "Add a princial, Principal type "IAM users" ,, connect with previous user .. 
+For "{Account}" put, set account, user id
+ For "{UserName}" put, set name of role
