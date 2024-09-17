@@ -125,8 +125,6 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(List.of(allowedOrigin)); // Replace with your frontend URL
         configuration.setAllowedMethods(List.of("HEAD", "GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-//        configuration.addAllowedMethod("*");
-//        configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true);
         configuration.setMaxAge(MAX_AGE_SECS);
 
@@ -135,24 +133,6 @@ public class SecurityConfig {
 
         return source;
     }
-
-//    @Bean
-//    public JavaMailSender getJavaMailSender() {
-//        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-//        mailSender.setHost("smtp.gmail.com");
-//        mailSender.setPort(587);
-//
-//        mailSender.setUsername("brodarnikola7@gmail.com");
-//        mailSender.setPassword("qvvu kilp vijb cgrp");
-//
-//        Properties props = mailSender.getJavaMailProperties();
-//        props.put("mail.transport.protocol", "smtp");
-//        props.put("mail.smtp.auth", "true");
-//        props.put("mail.smtp.starttls.enable", "true");
-//        props.put("mail.debug", "true");
-//
-//        return mailSender;
-//    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

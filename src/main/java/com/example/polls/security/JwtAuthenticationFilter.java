@@ -56,6 +56,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (authHeader == null || !authHeader.startsWith("Bearer")) {
                 logger.debug("Request is: {}", request);
                 filterChain.doFilter(request, response);
+
                 return;
             }
 
@@ -106,11 +107,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return Optional.empty();
     }
 
-//    private String getJwtFromRequest(HttpServletRequest request) {
-//        String bearerToken = request.getHeader("Authorization");
-//        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-//            return bearerToken.substring(7, bearerToken.length());
-//        }
-//        return null;
-//    }
 }

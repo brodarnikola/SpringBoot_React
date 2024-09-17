@@ -12,6 +12,7 @@ import com.example.polls.security.UserPrincipal;
 import com.example.polls.service.RegistrationListener;
 import com.example.polls.service.UserSecurityService;
 import com.example.polls.service.UserService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -77,6 +78,9 @@ public class AuthController {
     @Autowired
     private RegistrationListener registrationListener;
 
+    @Value("${app.cors.allowed-origins}")
+    private String allowedOrigin;
+
     @PostMapping("/forgotPassword")
     public ResponseEntity<?> forgotPassword(@Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest) {
 
@@ -85,14 +89,9 @@ public class AuthController {
                         new UsernameNotFoundException("User not found with username or email : " + forgotPasswordRequest.getEmail())
                 );
 
-        //Locale locale =  LocaleContextHolder.getLocale();
-
         String token = UUID.randomUUID().toString();
         createPasswordResetTokenForUser(user, token);
         mailSender.send(constructResetTokenEmail(token, user));
-        //return new GenericResponse(
-        //        messages.getMessage("message.resetPasswordEmail", null,
-        //                locale));
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/login")
@@ -101,12 +100,8 @@ public class AuthController {
         return ResponseEntity.created(location).body(new ApiResponse(true, "Reset password has been send"));
     }
 
-    /* private String getAppUrl(HttpServletRequest request) {
-        return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-    } */
-
     private String getAppUrl() {
-        return "http://localhost:3000";
+        return allowedOrigin;
     }
 
     public void createPasswordResetTokenForUser(User user, String token) {
@@ -172,8 +167,6 @@ public class AuthController {
 
         return ResponseEntity.created(location).
                 body(new ApiResponse(true, "New password has been saved successfully"));
-        //return new GenericResponse(
-        //        messages.getMessage("message.resetPasswordSuc", null, locale));
     }
 
     @PostMapping("/signin")

@@ -7,6 +7,7 @@ import com.example.polls.model.OnRegistrationCompleteEvent;
 import com.example.polls.model.User;
 import com.example.polls.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
@@ -31,6 +32,9 @@ public class RegistrationListener  {
 
     @Autowired
     private Environment env;
+
+    @Value("${app.cors.allowed-origins}")
+    private String allowedOrigin;
 
     // API
 
@@ -59,7 +63,7 @@ public class RegistrationListener  {
 
         final String recipientAddress = user.getEmail();
         final String subject = "Registration Confirmation";
-        final String confirmationUrl = "http://localhost:3000/signUpConfirm?token=" + token;
+        final String confirmationUrl = allowedOrigin + "/signUpConfirm?token" + token;
         final SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(recipientAddress);
         email.setSubject(subject);
