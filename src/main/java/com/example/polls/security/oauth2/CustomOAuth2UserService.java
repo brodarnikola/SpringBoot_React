@@ -29,6 +29,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private final UserRepository userRepository;
     private final List<OAuth2UserInfoExtractor> oAuth2UserInfoExtractors;
 
+    // Another way of creating constructors
     public CustomOAuth2UserService(UserRepository userRepository, RoleRepository roleRepository, List<OAuth2UserInfoExtractor> oAuth2UserInfoExtractors) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;

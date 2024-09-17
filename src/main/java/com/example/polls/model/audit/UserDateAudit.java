@@ -7,7 +7,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import jakarta.persistence.MappedSuperclass;
 
 /**
- * Created by rajeevkumarsingh on 19/08/17.
+ * Created by nikolaBrodar on 19/08/17.
  */
 
 @MappedSuperclass

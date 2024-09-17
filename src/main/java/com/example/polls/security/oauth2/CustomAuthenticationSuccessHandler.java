@@ -12,6 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 
+// Another way of creating constructors
 @RequiredArgsConstructor
 @Component
 public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -20,6 +21,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     @Value("${app.oauth2.redirectUri}")
     private String redirectUri;
+
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {

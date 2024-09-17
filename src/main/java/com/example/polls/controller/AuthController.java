@@ -38,7 +38,7 @@ import org.springframework.mail.SimpleMailMessage;
 
 
 /**
- * Created by rajeevkumarsingh on 02/08/17.
+ * Created by nikolaBrodar on 02/08/17.
  */
 @RestController
 @RequestMapping("/api/auth")

@@ -38,7 +38,7 @@ import java.util.List;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-@RequiredArgsConstructor
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -61,15 +61,16 @@ public class SecurityConfig {
     @Value("${app.cors.allowed-origins}")
     private String allowedOrigin;
 
-//    public SecurityConfig(
-//            CustomUserDetailsService customUserDetailsService,
-//            JwtAuthenticationFilter jwtAuthenticationFilter,
-//            JwtAuthenticationEntryPoint unauthorizedHandler  ) {
-////        this.authenticationProvider = authenticationProvider;
-//        this.customUserDetailsService = customUserDetailsService;
-//        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-//        this.unauthorizedHandler = unauthorizedHandler;
-//    }
+    // Another way of creating constructors
+    public SecurityConfig(CustomOAuth2UserService customOauth2UserService,
+                          CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler,
+                          JwtAuthenticationEntryPoint unauthorizedHandler,
+                          JwtAuthenticationFilter jwtAuthenticationFilter) {
+        this.customOauth2UserService = customOauth2UserService;
+        this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
+        this.unauthorizedHandler = unauthorizedHandler;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    }
 
 //    @Bean
 //    AuthenticationProvider authenticationProvider() {
