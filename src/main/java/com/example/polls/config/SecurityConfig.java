@@ -48,12 +48,8 @@ public class SecurityConfig {
     private final CustomOAuth2UserService customOauth2UserService;
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
-
-//    private final CustomUserDetailsService customUserDetailsService;
     private final JwtAuthenticationEntryPoint unauthorizedHandler;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
-//    private final TokenProvider tokenProvider;
 
     public static final String ADMIN = "ADMIN";
     public static final String USER = "USER";
@@ -97,26 +93,6 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-//    @Bean
-//    public WebMvcConfigurer corsConfigurer() {
-//        return new WebMvcConfigurer() {
-//            @Override
-//            public void addCorsMappings(CorsRegistry registry) {
-//                registry.addMapping("/**")
-////                        .allowedOrigins("http://localhost:5000")
-//                        .allowedOrigins(allowedOrigin)
-////                        .allowedOrigins("*")
-////                       .allowCredentials(true)
-//                        .allowedHeaders("Authorization", "Content-Type")
-//                        .allowedMethods("HEAD",  "GET", "POST", "PUT", "PATCH", "DELETE")
-//                        .maxAge(MAX_AGE_SECS);
-////                registry.addMapping("/**")
-////                        .allowedOrigins("http://allowed-origin.com")
-////                        .allowedMethods("GET", "POST", "PUT", "DELETE")
-//            }
-//        };
-//    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

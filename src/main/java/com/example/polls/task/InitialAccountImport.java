@@ -33,12 +33,15 @@ public class InitialAccountImport implements Runnable {
 
     private static final Logger log = LoggerFactory.getLogger(InitialAccountImport.class);
 
-    @Autowired
-    TransactionService transactionService;
-    @Autowired
-    AccountService accountService;
-    @Autowired
-    CustomerServiceImpl customerService;
+    private final TransactionService transactionService;
+    private final AccountService accountService;
+    private final CustomerServiceImpl customerService;
+
+    public InitialAccountImport(TransactionService transactionService, AccountService accountService, CustomerServiceImpl customerService) {
+        this.transactionService = transactionService;
+        this.accountService = accountService;
+        this.customerService = customerService;
+    }
 
     @Override
     public void run() {
