@@ -28,6 +28,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -113,7 +115,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                // if we are using token-based authentication, such as JWT, then we can disable this CSRF, because JWT is protecting us
                 .csrf(AbstractHttpConfigurer::disable)
+
+//              one way how we can handle, protect us from csrf attacks if we have session based authentication
+//              this needs to be handled on backend side and also on frontend size .. FE side then needs to use X-XSRF token
+//
+//                .csrf((csrf) -> csrf
+//                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+//                        // https://stackoverflow.com/a/74521360/65681
+//                        .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
+//                )
+////
+//                .addFilterAfter(new CookieCsrfFilter(), BasicAuthenticationFilter.class)
+//                .addFilterAfter(new SpaWebFilter(), BasicAuthenticationFilter.class)
 
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Use the CorsConfigurationSource bean
 
