@@ -8,7 +8,6 @@ import com.example.polls.bank.model.Account;
 import com.example.polls.bank.model.Customer;
 import com.example.polls.bank.model.Transaction;
 import com.example.polls.bank.model.Currency;
-import com.github.javafaker.Faker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

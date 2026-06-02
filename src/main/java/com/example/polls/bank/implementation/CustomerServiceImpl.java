@@ -3,7 +3,7 @@ package com.example.polls.bank.implementation;
 import com.example.polls.bank.dao.CustomerRepository;
 import com.example.polls.bank.interfaces.CustomerService;
 import com.example.polls.bank.model.Customer;
-import com.github.javafaker.Faker;
+import net.datafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
