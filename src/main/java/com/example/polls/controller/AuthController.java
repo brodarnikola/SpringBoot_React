@@ -106,8 +106,16 @@ public class AuthController {
     }
 
     public void createPasswordResetTokenForUser(User user, String token) {
-        VerificationToken myToken = new VerificationToken(token, user);
-        passwordResetTokenRepository.save(myToken);
+        // A user can only have one verification token (user_id is unique). If one
+        // already exists (e.g. from registration confirmation or an earlier reset
+        // request), reuse that row instead of inserting a duplicate.
+        VerificationToken existingToken = passwordResetTokenRepository.findByUser(user);
+        if (existingToken != null) {
+            existingToken.updateToken(token);
+            passwordResetTokenRepository.save(existingToken);
+        } else {
+            passwordResetTokenRepository.save(new VerificationToken(token, user));
+        }
     }
 
     private SimpleMailMessage constructResetTokenEmail(String token, User user) {
