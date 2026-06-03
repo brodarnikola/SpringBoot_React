@@ -63,7 +63,7 @@ public class RegistrationListener  {
 
         final String recipientAddress = user.getEmail();
         final String subject = "Registration Confirmation";
-        final String confirmationUrl = allowedOrigin + "/signUpConfirm?token" + token;
+        final String confirmationUrl = allowedOrigin + "/signUpConfirm?token=" + token;
         final SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(recipientAddress);
         email.setSubject(subject);

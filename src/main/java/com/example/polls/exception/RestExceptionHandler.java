@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
@@ -48,6 +49,20 @@ public class RestExceptionHandler {
         return new ResponseEntity<>(
                 new ApiResponse(false, "Your account is locked."),
                 HttpStatus.UNAUTHORIZED);
+    }
+
+    /**
+     * Sending the confirmation/reset email failed (e.g. bad SMTP credentials).
+     * Because the registration flow is transactional, the user row is rolled
+     * back, so it's safe to tell the client to try again.
+     */
+    @ExceptionHandler(MailException.class)
+    public ResponseEntity<ApiResponse> handleMail(MailException ex) {
+        logger.error("Failed to send email", ex);
+        return new ResponseEntity<>(
+                new ApiResponse(false, "We couldn't send the confirmation email right now. " +
+                        "Please try again later."),
+                HttpStatus.SERVICE_UNAVAILABLE);
     }
 
     /**

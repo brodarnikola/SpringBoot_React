@@ -23,6 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
@@ -194,6 +195,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
+    @Transactional
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
 
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {

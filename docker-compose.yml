@@ -33,8 +33,8 @@ services:
       - SPRING_DATASOURCE_DRIVER-CLASS_NAME=com.mysql.cj.jdbc.Driver
       - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQL8Dialect
       - SPRING_MAIL_HOST=smtp.gmail.com
-      - SPRING_MAIL_USERNAME=brodarnikola7@gmail.com
-      - SPRING_MAIL_PASSWORD=qvvu kilp vijb cgrp
+      - SPRING_MAIL_USERNAME=enter_your_email
+      - SPRING_MAIL_PASSWORD=enter_your_password
       - SPRING_MAIL_PORT=587
       - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=true
       - SPRING_MAIL_PROPERTIES_MAIL_SMTP_SSL_TRUST=smtp.gmail.com
