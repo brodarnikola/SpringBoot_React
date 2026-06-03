@@ -34,17 +34,10 @@ const LoginForm = (props) => {
             localStorage.setItem(ACCESS_TOKEN, response.accessToken);
             props.onLogin(false);
         } catch (error) {
-            if (error.status === 401) {
-                notification.error({
-                    message: 'Polling App',
-                    description: 'Your Username or Password is incorrect. Please try again!'
-                });
-            } else {
-                notification.error({
-                    message: 'Polling App',
-                    description: error.message || 'Sorry! Something went wrong. Please try again!'
-                });
-            }
+            notification.error({
+                message: 'Polling App',
+                description: error.message || 'Something went wrong. Please try again later.'
+            });
         }
     };
 

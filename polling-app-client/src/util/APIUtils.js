@@ -13,10 +13,24 @@ const request = (options) => {
     options = Object.assign({}, defaults, options);
 
     return fetch(options.url, options)
-    .then(response => 
-        response.json().then(json => {
+    .then(response =>
+        // Read the body as text first so an empty or non-JSON response (e.g. a
+        // 401 with no body) doesn't blow up with "Unexpected end of JSON input".
+        response.text().then(text => {
+            let json;
+            try {
+                json = text ? JSON.parse(text) : {};
+            } catch (e) {
+                json = {};
+            }
+
             if(!response.ok) {
-                return Promise.reject(json);
+                return Promise.reject({
+                    status: response.status,
+                    success: false,
+                    message: json.message || 'Something went wrong. Please try again later.',
+                    ...json
+                });
             }
             return json;
         })

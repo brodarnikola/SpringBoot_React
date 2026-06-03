@@ -23,6 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
@@ -105,8 +106,16 @@ public class AuthController {
     }
 
     public void createPasswordResetTokenForUser(User user, String token) {
-        VerificationToken myToken = new VerificationToken(token, user);
-        passwordResetTokenRepository.save(myToken);
+        // A user can only have one verification token (user_id is unique). If one
+        // already exists (e.g. from registration confirmation or an earlier reset
+        // request), reuse that row instead of inserting a duplicate.
+        VerificationToken existingToken = passwordResetTokenRepository.findByUser(user);
+        if (existingToken != null) {
+            existingToken.updateToken(token);
+            passwordResetTokenRepository.save(existingToken);
+        } else {
+            passwordResetTokenRepository.save(new VerificationToken(token, user));
+        }
     }
 
     private SimpleMailMessage constructResetTokenEmail(String token, User user) {
@@ -194,6 +203,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
+    @Transactional
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
 
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
